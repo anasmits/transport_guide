@@ -1,0 +1,7 @@
+D:/NASTYA/yandex_transport_guide/transport_guide/build-transport_guide-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/CMakeFiles/transport_guide.dir
+D:/NASTYA/yandex_transport_guide/transport_guide/build-transport_guide-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+D:/NASTYA/yandex_transport_guide/transport_guide/build-transport_guide-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+D:/NASTYA/yandex_transport_guide/transport_guide/build-transport_guide-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+D:/NASTYA/yandex_transport_guide/transport_guide/build-transport_guide-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/CMakeFiles/install.dir
+D:/NASTYA/yandex_transport_guide/transport_guide/build-transport_guide-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+D:/NASTYA/yandex_transport_guide/transport_guide/build-transport_guide-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
