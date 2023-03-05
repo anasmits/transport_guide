@@ -167,4 +167,3 @@ std::string TransportCatalogue::GetStopInfo(const std::string &stop_name) const
     }
     return out.str();
 }
-

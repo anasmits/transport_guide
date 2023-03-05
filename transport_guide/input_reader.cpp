@@ -1,6 +1,9 @@
 #include "input_reader.h"
 
+namespace transport_catalogue{
 namespace input_reader{
+
+using namespace transport_catalogue::catalogue;
 
 std::string ReadLine(std::istream& input) {
     std::string s;
@@ -32,39 +35,9 @@ std::vector<std::string> ParseWithDelimeter(std::string& line, std::string delim
     return result;
 }
 
-std::vector<std::string> ParseLine(std::string& line){
-    using namespace std::literals;
-    std::vector<std::string> result;
-    int64_t pos = line.find_first_not_of(' ');
-    const int64_t pos_end = line.npos;
-    while (pos != pos_end){
-        int64_t space = line.find(' ', pos);
-        result.push_back(space == pos_end ? line.substr(pos) : line.substr(pos, space - pos));
-        pos = line.find_first_not_of(' ', space);
-    }
-    return result;
-}
-
-// works correctly
-Stop  ParseStopQuery(std::string& line){
-    auto name_begin = line.find_first_not_of(' ', line.find_first_of('p')+1);
-    auto name_end = line.find_first_of(':', name_begin);
-    auto stop_name = line.substr(name_begin, name_end-name_begin);
-
-    auto log_begin = line.find_first_not_of(' ', name_end+1);
-    auto log_end = line.find_first_of(' ', log_begin);
-    auto log = line.substr(log_begin, log_end - log_begin);
-
-    auto lng_begin = line.find_first_not_of(' ', log_end);
-    auto lng_end = line.find_first_of(' ', lng_begin);
-    auto lng = line.substr(lng_begin, lng_end - lng_begin);
-
-    Coordinates coordinates = {std::stod(log), std::stod(lng)};
-    return {stop_name, coordinates};
-}
-
 // with pointer
 void ParseStopQueryPtr(TransportCatalogue& catalogue, std::string& line){
+    using namespace catalogue::detail;
     auto name_begin = line.find_first_not_of(' ', line.find_first_of('p')+1);
     auto name_end = line.find_first_of(':', name_begin);
     auto stop_name_from = line.substr(name_begin, name_end - name_begin);
@@ -104,6 +77,8 @@ void ParseStopQueryPtr(TransportCatalogue& catalogue, std::string& line){
 // with pointer
 void ParseBusQueryPtr(TransportCatalogue& catalogue, std::string& line){
     using namespace std::literals;
+    using namespace catalogue::detail;
+
     auto name_begin = line.find_first_not_of(' ', line.find_first_of('s')+1);
     auto name_end = line.find_first_of(':');
     auto bus_name = line.substr(name_begin, name_end - name_begin);
@@ -134,6 +109,62 @@ void ParseBusQueryPtr(TransportCatalogue& catalogue, std::string& line){
     }
 
     catalogue.AddBus(bus);
+}
+
+// function with streaming parsing - if stop doesn't exist, create it with smart pointer
+void ParseInputQueryPtr(TransportCatalogue& catalogue, std::istream& input){
+    using namespace std::literals;
+    int number = ReadLineWithNumber(input);
+    for(int i = 0; i < number; ++i){
+        std::string line = ReadLine(input);
+        if(line[line.find_first_not_of(' ')] == 'S'){
+            ParseStopQueryPtr(catalogue, line);
+        } else{
+            ParseBusQueryPtr(catalogue, line);
+        }
+    }
+}
+
+namespace detail{
+void LoadDataQuery(TransportCatalogue& catalogue, std::istream& input = std::cin){
+    ParseInputQueryPtr(catalogue, input);
+}
+} // namespace detail
+
+} // namespace input_reader
+} // namespace transport_catalogue
+
+
+/*
+std::vector<std::string> ParseLine(std::string& line){
+    using namespace std::literals;
+    std::vector<std::string> result;
+    int64_t pos = line.find_first_not_of(' ');
+    const int64_t pos_end = line.npos;
+    while (pos != pos_end){
+        int64_t space = line.find(' ', pos);
+        result.push_back(space == pos_end ? line.substr(pos) : line.substr(pos, space - pos));
+        pos = line.find_first_not_of(' ', space);
+    }
+    return result;
+}
+
+// works correctly
+Stop  ParseStopQuery(std::string& line){
+    auto name_begin = line.find_first_not_of(' ', line.find_first_of('p')+1);
+    auto name_end = line.find_first_of(':', name_begin);
+    auto stop_name = line.substr(name_begin, name_end-name_begin);
+
+    auto log_begin = line.find_first_not_of(' ', name_end+1);
+    auto log_end = line.find_first_of(' ', log_begin);
+    auto log = line.substr(log_begin, log_end - log_begin);
+
+    auto lng_begin = line.find_first_not_of(' ', log_end);
+    auto lng_end = line.find_first_of(' ', lng_begin);
+    auto lng = line.substr(lng_begin, lng_end - lng_begin);
+
+    Coordinates coordinates = {std::stod(log), std::stod(lng)};
+    return {stop_name, coordinates};
 }
 
 // works correctly
@@ -207,20 +238,6 @@ void ParseInputQuery(TransportCatalogue& catalogue, std::istream& input){
     }
 }
 
-// function with streaming parsing - if stop doesn't exist, create it with smart pointer
-void ParseInputQueryPtr(TransportCatalogue& catalogue, std::istream& input){
-    using namespace std::literals;
-    int number = ReadLineWithNumber(input);
-    for(int i = 0; i < number; ++i){
-        std::string line = ReadLine(input);
-        if(line[line.find_first_not_of(' ')] == 'S'){
-            ParseStopQueryPtr(catalogue, line);
-        } else{
-            ParseBusQueryPtr(catalogue, line);
-        }
-    }
-}
-
 bool CheckIfRouteExists(const TransportCatalogue& catalogue, std::vector<std::string>& stops){
     for(auto& stop : stops){
         if(catalogue.FindStop(stop) == nullptr){
@@ -230,8 +247,4 @@ bool CheckIfRouteExists(const TransportCatalogue& catalogue, std::vector<std::st
     return true;
 }
 
-void LoadDataQuery(TransportCatalogue& catalogue, std::istream& input = std::cin){
-    ParseInputQueryPtr(catalogue, input);
-}
-
-} // namespace input_reader
+*/

@@ -8,9 +8,11 @@
 #include "transport_catalogue.h"
 #include "input_reader.h"
 
-
+namespace transport_catalogue{
 namespace stat_reader{
 namespace test{
+
+//using namespace stat_reader;
 
 void GetStopInfo(transport_catalogue::catalogue::TransportCatalogue& catalogue){
     using namespace std::literals;
@@ -123,3 +125,4 @@ void RunTest(){
 
 } // namespace test
 } // namespace stat_reader
+} // namespace transport_catalogue

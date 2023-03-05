@@ -115,69 +115,72 @@ void FindBus(){
     std::cerr << "FindBus is OK"s << std::endl;
 }
 
-void CalculateRouteLengthGeo(){
-    using namespace std::string_literals;
-    Stop test_stop1 = {"First"s, 0, 1.3}
-        , test_stop2 = {"Second"s, 1.3 , 2.2}
-        , test_stop3 = {"Third"s, 2.5 , 3.7};
-    std::vector<Stop*> vec_stop = {&test_stop1, &test_stop2, &test_stop3};
-    Bus bus345 = {"345"s, vec_stop, false };
+//// private function
+//void CalculateRouteLengthGeo(){
+//    using namespace std::string_literals;
+//    Stop test_stop1 = {"First"s, 0, 1.3}
+//        , test_stop2 = {"Second"s, 1.3 , 2.2}
+//        , test_stop3 = {"Third"s, 2.5 , 3.7};
+//    std::vector<Stop*> vec_stop = {&test_stop1, &test_stop2, &test_stop3};
+//    Bus bus345 = {"345"s, vec_stop, false };
 
-    TransportCatalogue cat;
-    cat.AddStop(test_stop1);
-    cat.AddStop(test_stop2);
-    cat.AddStop(test_stop3);
+//    TransportCatalogue cat;
+//    cat.AddStop(test_stop1);
+//    cat.AddStop(test_stop2);
+//    cat.AddStop(test_stop3);
 
-    cat.SetDistanceBetweenStops(cat.FindStop("First"s), cat.FindStop("Second"s), 7);
-    cat.SetDistanceBetweenStops(cat.FindStop("Second"s), cat.FindStop("Third"s), 2);
+//    cat.SetDistanceBetweenStops(cat.FindStop("First"s), cat.FindStop("Second"s), 7);
+//    cat.SetDistanceBetweenStops(cat.FindStop("Second"s), cat.FindStop("Third"s), 2);
 
-    cat.AddBus(bus345);
-    auto expected_route_length = ComputeDistance(test_stop1.coordinates, test_stop2.coordinates)
-            + ComputeDistance(test_stop2.coordinates, test_stop3.coordinates);
+//    cat.AddBus(bus345);
+//    auto expected_route_length = ComputeDistance(test_stop1.coordinates, test_stop2.coordinates)
+//            + ComputeDistance(test_stop2.coordinates, test_stop3.coordinates);
 
-    assert(cat.CalculateGeoRouteLength(cat.FindBus("345"s)) == expected_route_length);
-    std::cerr << "CalculateRouteLength is OK"s << std::endl;
-}
+//    assert(cat.CalculateGeoRouteLength(cat.FindBus("345"s)) == expected_route_length);
+//    std::cerr << "CalculateRouteLength is OK"s << std::endl;
+//}
 
-void CalculateRouteLength(){
-    using namespace std::string_literals;
-    Stop test_stop1 = {"First"s, 0, 1.3}
-        , test_stop2 = {"Second"s, 1.3 , 2.2}
-        , test_stop3 = {"Third"s, 2.5 , 3.7};
-    std::vector<Stop*> vec_stop = {&test_stop1, &test_stop2, &test_stop3};
-    Bus bus345 = {"345"s, vec_stop, false };
-    TransportCatalogue cat;
-    cat.AddStop(test_stop1);
-    cat.AddStop(test_stop2);
-    cat.AddStop(test_stop3);
+//// private function
+//void CalculateRouteLength(){
+//    using namespace std::string_literals;
+//    Stop test_stop1 = {"First"s, 0, 1.3}
+//        , test_stop2 = {"Second"s, 1.3 , 2.2}
+//        , test_stop3 = {"Third"s, 2.5 , 3.7};
+//    std::vector<Stop*> vec_stop = {&test_stop1, &test_stop2, &test_stop3};
+//    Bus bus345 = {"345"s, vec_stop, false };
+//    TransportCatalogue cat;
+//    cat.AddStop(test_stop1);
+//    cat.AddStop(test_stop2);
+//    cat.AddStop(test_stop3);
 
-    cat.SetDistanceBetweenStops(cat.FindStop("First"s), cat.FindStop("Second"s), 7);
-    cat.SetDistanceBetweenStops(cat.FindStop("Second"s), cat.FindStop("Third"s), 2);
+//    cat.SetDistanceBetweenStops(cat.FindStop("First"s), cat.FindStop("Second"s), 7);
+//    cat.SetDistanceBetweenStops(cat.FindStop("Second"s), cat.FindStop("Third"s), 2);
 
-    cat.AddBus(bus345);
+//    cat.AddBus(bus345);
 
-    assert(cat.CalculateRouteLength(cat.FindBus("345"s)) == 9);
-    std::cerr << "CalculateRouteLength is OK"s << std::endl;
-}
+//    assert(cat.CalculateRouteLength(cat.FindBus("345"s)) == 9);
+//    std::cerr << "CalculateRouteLength is OK"s << std::endl;
+//}
 
-void CalculateCurvature(){
-    using namespace std::string_literals;
-    Stop test_stop1 = {"First"s, 1, 1.3}
-        , test_stop2 = {"Second"s, 1.3 , 2.2};
-    std::vector<Stop*> vec_stop = {&test_stop1, &test_stop2};
-    Bus bus345 = {"345"s, vec_stop, false };
-    TransportCatalogue cat;
-    cat.AddStop(test_stop1);
-    cat.AddStop(test_stop2);
+//// private function
+//void CalculateCurvature(){
+//    using namespace std::string_literals;
+//    Stop test_stop1 = {"First"s, 1, 1.3}
+//        , test_stop2 = {"Second"s, 1.3 , 2.2};
+//    std::vector<Stop*> vec_stop = {&test_stop1, &test_stop2};
+//    Bus bus345 = {"345"s, vec_stop, false };
+//    TransportCatalogue cat;
+//    cat.AddStop(test_stop1);
+//    cat.AddStop(test_stop2);
 
-    cat.SetDistanceBetweenStops(cat.FindStop("First"s), cat.FindStop("Second"s), 10);
+//    cat.SetDistanceBetweenStops(cat.FindStop("First"s), cat.FindStop("Second"s), 10);
 
-    cat.AddBus(bus345);
-    auto geo = ComputeDistance(cat.FindStop("First"s)->coordinates, cat.FindStop("Second"s)->coordinates);
+//    cat.AddBus(bus345);
+//    auto geo = ComputeDistance(cat.FindStop("First"s)->coordinates, cat.FindStop("Second"s)->coordinates);
 
-    assert(cat.CalculateCurvature(geo, cat.GetDistanceBetweenStops(cat.FindStop("First"s), cat.FindStop("Second"s))) - 10/geo < 0.000001);
-    std::cerr << "CalculateCurvature is OK"s << std::endl;
-}
+//    assert(cat.CalculateCurvature(geo, cat.GetDistanceBetweenStops(cat.FindStop("First"s), cat.FindStop("Second"s))) - 10/geo < 0.000001);
+//    std::cerr << "CalculateCurvature is OK"s << std::endl;
+//}
 
 void GetBusInfo(){
     using namespace std::literals;
@@ -287,7 +290,6 @@ void GetDistanceBetweenStops(){
     assert(cat.GetDistanceBetweenStops(cat.FindStop("Second"s), cat.FindStop("First"s)) == 71);
     assert(cat.GetDistanceBetweenStops(cat.FindStop("Second"s), cat.FindStop("Third"s)) == 32);
     assert(cat.GetDistanceBetweenStops(cat.FindStop("Third"s), cat.FindStop("Second"s)) == 32);
-//    assert(cat.GetDistanceBetweenStops(cat.FindStop("Third"s), cat.FindStop("First"s)) == 0);
 
     std::cerr << "GetDistanceBetweenStops is OK"s << std::endl;
 }
@@ -375,34 +377,18 @@ void RunTest(){
     AddBus();
     FindBus();
 
-    CalculateRouteLengthGeo();
-    CalculateRouteLength();
-    CalculateCurvature();
+    // private functions
+//    CalculateRouteLengthGeo();
+//    CalculateRouteLength();
+//    CalculateCurvature();
 
     GetStopInfo();
     GetBusInfo();
 
-
-
-
-    /*
-
-
-        void SetBusForStops(const std::vector<Stop*>& stops, std::string_view bus_name);
-
-        void SetGeoDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to, double distance);
-        int GetGeoDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to) const;
-
-    std::string GetBusInfo(const std::string& bus_name) const;
-
-*/
-
-
     std::cerr << "Test Transport Catalogue is passed"s << std::endl;
 }
 namespace detail{
-
 }
 
-}
+} // namespace test
 } // namespace transport_catalogue

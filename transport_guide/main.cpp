@@ -6,20 +6,18 @@
 #include "test_transport_catalogue.h"
 #include "test_stat_reader.h"
 
-//#include "input_reader.h"
-//#include "transport_catalogue.h"
-//#include "stat_reader.h"
-
 using namespace std;
+using namespace transport_catalogue;
+
 
 void TestWithFiles(std::string input_file_name, std::string output_file_name){
     std::ifstream input(input_file_name /*"tsA_case1_input.txt"*/);
     std::fstream my_output(output_file_name /*"my_output1.txt"*/);
     if(input.is_open() ){
         transport_catalogue::catalogue::TransportCatalogue catalogue;
-        input_reader::LoadDataQuery(catalogue, input);
+        input_reader::detail::LoadDataQuery(catalogue, input);
         if(my_output.is_open()){
-            stat_reader::LoadInfoQuery(catalogue, input, my_output);
+            stat_reader::detail::LoadInfoQuery(catalogue, input, my_output);
         }
     }
     my_output.close();
@@ -68,7 +66,7 @@ int main()
         "Stop Biryulyovo Zapadnoye\n"
     };
 
-    stat_reader::LoadInfoQuery(catalogue, query, output);
+    stat_reader::detail::LoadInfoQuery(catalogue, query, output);
     std::cout << output.str() << endl;
 
     TestAll();

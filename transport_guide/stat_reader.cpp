@@ -1,6 +1,7 @@
 #include "stat_reader.h"
 #include "input_reader.h"
 
+namespace transport_catalogue{
 namespace stat_reader{
 using transport_catalogue::catalogue::TransportCatalogue;
 
@@ -35,7 +36,12 @@ std::string ParseInfoBusQuery(const TransportCatalogue& catalogue, std::string& 
     return catalogue.GetBusInfo(bus_name);
 }
 
+namespace detail{
 void LoadInfoQuery(const TransportCatalogue& catalogue, std::istream& input, std::ostream& output){
     ParseInfoQuery(catalogue, input, output);
 }
+
+} // namespace detail
+
+} // namespace tranport_catalogue
 } // namespace stat_reader

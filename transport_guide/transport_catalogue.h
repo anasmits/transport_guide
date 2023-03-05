@@ -56,62 +56,6 @@ struct hash_constpair_stopptr{
     }
 };
 
-
-class StopPtr {
-public:
-    StopPtr() = default;
-    explicit StopPtr(std::string name){
-        raw_ptr_ = new Stop(name, {});
-    }
-    explicit StopPtr(std::string name, Coordinates coordinates){
-        raw_ptr_ = new Stop(name, coordinates);
-    }
-    explicit StopPtr(Stop* raw_ptr) noexcept {
-        raw_ptr_ = raw_ptr;
-    }
-
-    StopPtr(const StopPtr&) = delete;
-    StopPtr& operator=(const StopPtr&) = delete;
-
-    StopPtr(StopPtr&& other){
-        raw_ptr_ = std::exchange(other.raw_ptr_, nullptr);
-    }
-
-    StopPtr& operator=(StopPtr&& other){
-        if (this != &other) {
-            std::swap(other.raw_ptr_, raw_ptr_);
-            return *this;
-        }
-    }
-
-    ~StopPtr() {
-        delete raw_ptr_;
-    }
-
-    [[nodiscard]] Stop* Release() noexcept {
-        return std::exchange(raw_ptr_, nullptr);
-    }
-
-    explicit operator bool() const {
-        return raw_ptr_ != nullptr;
-    }
-
-    Stop* Get() const noexcept {
-        return raw_ptr_;
-    }
-
-    const Stop* GetConst() const noexcept {
-        return raw_ptr_;
-    }
-
-    void swap(StopPtr& other) noexcept {
-        std::swap(other.raw_ptr_, raw_ptr_);
-    }
-
-private:
-    Stop* raw_ptr_ = nullptr;
-};
-
 struct Bus{
     Bus(){
         name = {};
@@ -183,9 +127,9 @@ public:
     std::string GetStopInfo(const std::string& stop_name) const;
 
 /*This functions must be checked then commented*/
-    double CalculateGeoRouteLength(const Bus* bus) const;
-    int CalculateRouteLength(const Bus* bus) const;
-    double CalculateCurvature(double geo_distance, int m_distance) const;
+//    double CalculateGeoRouteLength(const Bus* bus) const;
+//    int CalculateRouteLength(const Bus* bus) const;
+//    double CalculateCurvature(double geo_distance, int m_distance) const;
 
 private:
     std::deque<Stop> stops_;
@@ -194,22 +138,72 @@ private:
     std::unordered_map<std::string_view, Bus*> busname_to_bus;
     std::unordered_map<ConstPairStopPtr, double, hash_constpair_stopptr> stops_to_distance_geo; //  with coordinates
     std::unordered_map<ConstPairStopPtr, int, hash_constpair_stopptr> stops_to_distance_m; // with distance in meters
-    std::unordered_map<const Bus*, std::tuple<double, int, double>, std::hash<const void*>> busptr_to_geo_m_curv;
-//    std::unordered_map<Bus*, double, std::hash<const void*>> geo_route_length;
-//    std::unordered_map<Bus*, int, std::hash<const void*>> route_length;
-//    std::unordered_map<Bus*, double, std::hash<const void*>> curvature;
+//    std::unordered_map<const Bus*, std::tuple<double, int, double>, std::hash<const void*>> busptr_to_geo_m_curv;
     std::unordered_map<Stop*, std::set<std::string_view>> stopptr_to_busnames;
 
 /*This functions must be checked then uncommented*/
-//    double CalculateGeoRouteLength(const Bus* bus) const;
-//    int CalculateRouteLength(const Bus* bus) const;
-//    double CalculateCurvature(double geo_distance, int m_distance) const;
-
+    double CalculateGeoRouteLength(const Bus* bus) const;
+    int CalculateRouteLength(const Bus* bus) const;
+    double CalculateCurvature(double geo_distance, int m_distance) const;
 };
 
 
 namespace detail{
 
+class StopPtr {
+public:
+    StopPtr() = default;
+    explicit StopPtr(std::string name){
+        raw_ptr_ = new Stop(name, {});
+    }
+    explicit StopPtr(std::string name, Coordinates coordinates){
+        raw_ptr_ = new Stop(name, coordinates);
+    }
+    explicit StopPtr(Stop* raw_ptr) noexcept {
+        raw_ptr_ = raw_ptr;
+    }
+
+    StopPtr(const StopPtr&) = delete;
+    StopPtr& operator=(const StopPtr&) = delete;
+
+    StopPtr(StopPtr&& other){
+        raw_ptr_ = std::exchange(other.raw_ptr_, nullptr);
+    }
+
+    StopPtr& operator=(StopPtr&& other){
+        if (this != &other) {
+            std::swap(other.raw_ptr_, raw_ptr_);
+            return *this;
+        }
+    }
+
+    ~StopPtr() {
+        delete raw_ptr_;
+    }
+
+    [[nodiscard]] Stop* Release() noexcept {
+        return std::exchange(raw_ptr_, nullptr);
+    }
+
+    explicit operator bool() const {
+        return raw_ptr_ != nullptr;
+    }
+
+    Stop* Get() const noexcept {
+        return raw_ptr_;
+    }
+
+    const Stop* GetConst() const noexcept {
+        return raw_ptr_;
+    }
+
+    void swap(StopPtr& other) noexcept {
+        std::swap(other.raw_ptr_, raw_ptr_);
+    }
+
+private:
+    Stop* raw_ptr_ = nullptr;
+};
 
 } // namespace detail
 } // namespace catalogue
