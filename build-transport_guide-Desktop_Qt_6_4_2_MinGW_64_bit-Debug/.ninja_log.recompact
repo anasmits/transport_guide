@@ -1,5 +1,0 @@
-# ninja log v5
-0	1861	6992784797333948	CMakeFiles/transport_guide.dir/main.cpp.obj	6bfc2833dea3372f
-2	1184	6992785963579528	CMakeFiles/transport_guide.dir/input_reader.cpp.obj	ede35d3b3c410e06
-0	63	6992785951631468	build.ninja	fd503b0feb0d2724
-3	740	6992785959161339	CMakeFiles/transport_guide.dir/stat_reader.cpp.obj	6060de5aee558b28

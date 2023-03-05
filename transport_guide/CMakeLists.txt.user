@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 9.0.1, 2023-02-28T15:35:38. -->
+<!-- Written by QtCreator 9.0.1, 2023-03-03T21:21:00. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -375,8 +375,32 @@
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
-     <value type="QString">0</value>
-     <value type="QString">1</value>
-     <value type="QString">2</value>
- 
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">transport_guide</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.transport_guide</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">transport_guide</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/NASTYA/yandex_transport_guide/transport_guide/build-transport_guide-Desktop_Qt_6_4_2_MinGW_64_bit-Debug</value>
+   </valuemap>
+   <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>ProjectExplorer.Project.TargetCount</variable>
+  <value type="qlonglong">1</value>
+ </data>
+ <data>
+  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
+  <value type="int">22</value>
+ </data>
+ <data>
+  <variable>Version</variable>
+  <value type="int">22</value>
+ </data>
+</qtcreator>

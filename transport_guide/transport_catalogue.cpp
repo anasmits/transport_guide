@@ -21,10 +21,62 @@ void TransportCatalogue::AddStop(const Stop& stop){
 void TransportCatalogue::AddBus(const Bus& bus){
     buses_.push_back(std::move(bus));
     busname_to_bus[buses_.back().name] = &buses_.back();
-    route_length.insert(std::make_pair(&buses_.back().name, CalculateRouteLength(busname_to_bus[buses_.back().name])));
-    std::string_view bus_name = buses_.back().name;
-    for(auto stop : buses_.back().stops){
+
+    double geo = CalculateGeoRouteLength(busname_to_bus[buses_.back().name]);
+    int m = CalculateRouteLength(busname_to_bus[buses_.back().name]);
+    double curv =  CalculateCurvature(geo, m);
+    busptr_to_geo_m_curv.insert(std::make_pair(&buses_.back(), std::make_tuple(geo, m, curv)));
+
+//    geo_route_length.insert(std::make_pair(&buses_.back(), CalculateGeoRouteLength(busname_to_bus[buses_.back().name])));
+//    route_length.insert(std::make_pair(&buses_.back(), CalculateRouteLength(busname_to_bus[buses_.back().name])));
+//    curvature.insert(std::make_pair(&buses_.back(), CalculateCurvature(buses_.back().name)));
+
+    SetBusForStops(buses_.back().stops, buses_.back().name);
+}
+
+void TransportCatalogue::SetBusForStops(const std::vector<Stop*>& stops, std::string_view bus_name){
+    for(auto stop : stops){
         stopptr_to_busnames[stopname_to_stop.at(stop->name)].insert(bus_name);
+    }
+}
+
+std::set<std::string_view> TransportCatalogue::GetBusesForStop(Stop* stop) const{
+    if(stopptr_to_busnames.find(stop) != stopptr_to_busnames.end()){
+        return stopptr_to_busnames.at(stop);
+    }
+    return {};
+}
+
+void TransportCatalogue::SetDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to, int distance){
+    std::pair<const Stop*, const Stop*> stops = std::make_pair(stop_from, stop_to);
+    stops_to_distance_m[stops] = distance;
+}
+
+int TransportCatalogue::GetDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to) const{
+    std::pair<const Stop*, const Stop*> stops12 = std::make_pair(stop_from, stop_to);
+    std::pair<const Stop*, const Stop*> stops21 = std::make_pair(stop_to, stop_from);
+    if(stops_to_distance_m.find(stops12) != stops_to_distance_m.end()){
+        return stops_to_distance_m.at(stops12);
+    } else if(stops_to_distance_m.find(stops21) != stops_to_distance_m.end()){
+        return stops_to_distance_m.at(stops21);
+    } else{
+        using namespace std::literals;
+           throw std::out_of_range("Distance is not found"s);
+    }
+}
+
+void TransportCatalogue::SetGeoDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to, double distance){
+    stops_to_distance_geo[{stop_from, stop_to}] = distance;
+    stops_to_distance_geo[{stop_to, stop_from}] = distance;
+}
+
+int TransportCatalogue::GetGeoDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to) const{
+    std::pair<const Stop*, const Stop*> stops = std::make_pair(stop_from, stop_to);
+    if(stops_to_distance_geo.find(stops) != stops_to_distance_geo.end()){
+        return stops_to_distance_geo.at(stops);
+    }else {
+        using namespace std::literals;
+        throw std::out_of_range("Geo distance for stops is not found"s);
     }
 }
 
@@ -42,17 +94,39 @@ Bus* TransportCatalogue::FindBus(const std::string bus_name) const {
     return busname_to_bus.at(bus_name);
 }
 
-double TransportCatalogue::CalculateRouteLength(const Bus* bus){
+double TransportCatalogue::CalculateGeoRouteLength(const Bus* bus){
     double route_length = 0;
     for(size_t i = 0; i < bus->stops.size()-1; ++i){
         Stop* first_stop = bus->stops[i];
         Stop* second_stop = bus->stops[i+1];
         double distance = ComputeDistance(first_stop->coordinates, second_stop->coordinates);
-        stops_to_distance[MakePairTwoStop({first_stop, second_stop})] = distance;
-        stops_to_distance[MakePairTwoStop({second_stop, second_stop})] = distance;
+        SetGeoDistanceBetweenStops(first_stop, second_stop, distance);
         route_length += distance;
     }
     return route_length;
+}
+
+int TransportCatalogue::CalculateRouteLength(const Bus* bus){
+    int route_length = 0;
+    for(size_t i = 0; i < bus->stops.size()-1 ; ++i){
+        const Stop* first_stop = stopname_to_stop.at(bus->stops[i]->name);
+        const Stop* second_stop = stopname_to_stop.at(bus->stops[i+1]->name);
+        route_length += GetDistanceBetweenStops(first_stop, second_stop);
+    }
+    return route_length;
+}
+
+double TransportCatalogue::CalculateCurvature(double geo_distance, int m_distance){
+    if(geo_distance <= 0){
+       throw std::out_of_range ("CalculateCurvature:: The geo distance is 0. Cannot devide by 0.");
+    }
+    return static_cast<double>(m_distance) / geo_distance;
+   /* auto geo = geo_route_length.at(bus);
+    if(geo <= 0){
+        throw std::out_of_range ("The geo distance is 0. Cannot devide by 0.");
+    }
+    return static_cast<double>(route_length.at(&FindBus(bus_name)->name)) / geo;
+    */
 }
 
 std::string TransportCatalogue::GetBusInfo(const std::string& bus_name) const {
@@ -63,11 +137,15 @@ std::string TransportCatalogue::GetBusInfo(const std::string& bus_name) const {
         return "Bus "s + bus_name + ": not found"s;
     }
     std::unordered_set<Stop*> unique_stops = {bus->stops.begin(), bus->stops.end()};
+
     std::ostringstream out;
     out << "Bus " << bus_name << ": "
         << bus->stops.size() << " stops on route, "s
         << unique_stops.size() << " unique stops, "s
-        << std::setprecision(6) << route_length.at(const_cast<std::string*>(&bus->name)) << " route length"s;
+        << std::setprecision(6) << std::get<1>(busptr_to_geo_m_curv.at(bus)) << " route length, "s
+        << std::setprecision(6) << std::get<2>(busptr_to_geo_m_curv.at(bus)) << " curvature."s;
+//        << std::setprecision(6) << route_length.at(const_cast<std::string*>(&bus->name)) << " route length, "s
+//        << std::setprecision(6) << curvature.at(const_cast<std::string*>(&bus->name)) << " curvature."s;
     return out.str();
 }
 
@@ -89,3 +167,4 @@ std::string TransportCatalogue::GetStopInfo(const std::string &stop_name) const
     }
     return out.str();
 }
+

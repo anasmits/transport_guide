@@ -146,6 +146,7 @@ std::tuple<Bus, std::vector<std::string>> ParseBusQuery(std::string& line){
 }
 */
 
+// works correctly
 std::tuple<Bus, std::vector<std::string>> ParseBusQuery(std::string& line){
     using namespace std::literals;
     auto name_begin = line.find_first_not_of(' ', line.find_first_of('s')+1);
@@ -215,6 +216,42 @@ void ParseInputQuery(TransportCatalogue& catalogue, std::istream& input){
         }
     }
 }
+
+
+//void ParseInputQuery(TransportCatalogue& catalogue, std::istream& input){
+//    using namespace std::literals;
+
+//    std::vector<std::tuple<Bus, std::vector<std::string>>> bus_queries;
+//    int number = ReadLineWithNumber(input);
+//    for(int i = 0; i < number; ++i){
+//        std::string line = ReadLine(input);
+//        if(line[line.find_first_not_of(' ')] == 'S'){
+//            catalogue.AddStop(ParseStopQuery(line));
+//        } else{
+//            Bus bus;
+//            std::vector<std::string> stops;
+//            std::tie(bus, stops)= ParseBusQuery(line);
+//            if (CheckIfRouteExists(catalogue, stops)){
+//                for(auto& stop : stops){
+//                    bus.stops.push_back(catalogue.FindStop(stop));
+//                }
+//                catalogue.AddBus(bus);
+//            } else{
+//                bus_queries.push_back({bus, stops});
+//            }
+//        }
+//    }
+//    if(!bus_queries.empty()){
+//        for(auto& [bus, stops] : bus_queries){
+//            if(CheckIfRouteExists(catalogue, stops)){
+//                for (auto& stop : stops){
+//                    bus.stops.push_back(catalogue.FindStop(stop));
+//                }
+//                catalogue.AddBus(bus);
+//            }
+//        }
+//    }
+//}
 
 bool CheckIfRouteExists(const TransportCatalogue& catalogue, std::vector<std::string>& stops){
     for(auto& stop : stops){

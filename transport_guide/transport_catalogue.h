@@ -6,6 +6,7 @@
 #include <string_view>
 #include <vector>
 #include <set>
+#include <tuple>
 
 #include "geo.h"
 
@@ -33,23 +34,23 @@ struct Stop{
     Coordinates coordinates;
 };
 
-using StopPtrDistance = std::pair<Stop*, Stop*>;
-inline size_t MakePairTwoStop(const StopPtrDistance& stops) {
-    Stop* first = stops.first;
-    Stop* second = stops.second;
-    size_t hs1 = std::hash<std::string>{}(first->name)          * 37;
-    size_t hs2 = std::hash<std::string>{}(second->name)         * 37*37;
-    size_t hd11 = std::hash<double>{}(first->coordinates.lat)   * 37*37*37;
-    size_t hd12 = std::hash<double>{}(first->coordinates.lng)   * 37*37*37*37;
-    size_t hd21 = std::hash<double>{}(second->coordinates.lat)  * 37*37*37*37*37;
-    size_t hd22 = std::hash<double>{}(second->coordinates.lng)  * 37*37*37*37*37*37;
-    return hs1 + hs2 + hd11 + hd22 + hd12 + hd21;
-}
+using PairStopPtr = std::pair<Stop*, Stop*>;
+using ConstPairStopPtr = std::pair<const Stop*, const Stop*>;
 
-struct StopPtrDistanceHasher{
-    size_t operator()(const StopPtrDistance& two_stops){
-        return MakePairTwoStop(two_stops);
-    };
+struct hash_pair_stopptr{
+    size_t operator()(const PairStopPtr& p) const{
+        auto hash1 = std::hash<const void*>{}(p.first);
+        auto hash2 = std::hash<const void*>{}(p.second);
+        return hash1*37. + hash2*37.*37.;
+    }
+};
+
+struct hash_constpair_stopptr{
+    size_t operator()(const ConstPairStopPtr& p) const{
+        auto hash1 = std::hash<const void*>{}(p.first);
+        auto hash2 = std::hash<const void*>{}(p.second);
+        return hash1*37. + hash2*37.*37.;
+    }
 };
 
 struct Bus{
@@ -75,6 +76,25 @@ struct Bus{
     bool circle_rout;
 };
 
+using TupleDistance = std::tuple<double, int, double>;
+struct hash_tuple_distance{
+    size_t operator()(const TupleDistance& td) const{
+        auto hash0 = std::hash<double>{}(std::get<0>(td));
+        auto hash1 = std::hash<int>{}(std::get<1>(td));
+        auto hash2 = std::hash<double>{}(std::get<2>(td));
+        return hash0*37 + hash1*37*37 + hash2*37*37*37;
+    }
+};
+
+using ConstPairBusPtrTuple = std::pair<const Bus*, TupleDistance>;
+struct hash_constpair_busptr_tuple{
+    size_t operator()(const ConstPairBusPtrTuple& p) const{
+        auto hash1 = std::hash<const void*>{}(p.first);
+        auto hash2 = hash_tuple_distance{}(p.second);
+        return hash1 + hash2*37;
+    }
+};
+
 class TransportCatalogue
 {    
 public:
@@ -87,25 +107,43 @@ public:
     void AddStop(const Stop& stop);
     void AddBus(const Bus& bus);
 
+    void SetBusForStops(const std::vector<Stop*>& stops, std::string_view bus_name);
+    std::set<std::string_view> GetBusesForStop(Stop* stop) const;
+
+    void SetDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to, int distance);
+    int GetDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to) const;
+
+    void SetGeoDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to, double distance);
+    int GetGeoDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to) const;
+
     Stop* FindStop(const std::string stop_name) const;
     Bus* FindBus(const std::string bus_name) const;
 
     std::string GetBusInfo(const std::string& bus_name) const;
     std::string GetStopInfo(const std::string& stop_name) const;
-    double CalculateRouteLength(const Bus* bus);
+
+    double CalculateGeoRouteLength(const Bus* bus);
+    int CalculateRouteLength(const Bus* bus);
+    double CalculateCurvature(double geo_distance, int m_distance);
 
 private:
     std::deque<Stop> stops_;
     std::deque<Bus> buses_;
     std::unordered_map<std::string_view, Stop*> stopname_to_stop;
     std::unordered_map<std::string_view, Bus*> busname_to_bus;
-    std::unordered_map<size_t, double> stops_to_distance;
-    std::unordered_map<std::string*, double> route_length;
+    std::unordered_map<ConstPairStopPtr, double, hash_constpair_stopptr> stops_to_distance_geo; //  with coordinates
+    std::unordered_map<ConstPairStopPtr, int, hash_constpair_stopptr> stops_to_distance_m; // with distance in meters
+    std::unordered_map<const Bus*, std::tuple<double, int, double>, std::hash<const void*>> busptr_to_geo_m_curv;
+//    std::unordered_map<Bus*, double, std::hash<const void*>> geo_route_length;
+//    std::unordered_map<Bus*, int, std::hash<const void*>> route_length;
+//    std::unordered_map<Bus*, double, std::hash<const void*>> curvature;
     std::unordered_map<Stop*, std::set<std::string_view>> stopptr_to_busnames;
 };
 
 
 namespace detail{
-}
+
+
+} // namespace detail
 } // namespace catalogue
 } // namespace transport_cataloge

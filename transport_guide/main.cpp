@@ -7,7 +7,7 @@
 #include "test_stat_reader.h"
 
 //#include "input_reader.h"
-//#include "transport_catalogue.h"
+#include "transport_catalogue.h"
 //#include "stat_reader.h"
 
 using namespace std;
@@ -28,48 +28,81 @@ void TestWithFiles(std::string input_file_name, std::string output_file_name){
 
 void TestAll(){
     transport_catalogue::test::RunTest();
-    input_reader::test::RunTest();
     stat_reader::test::RunTest();
+    input_reader::test::RunTest();
+
 
     transport_catalogue::catalogue::TransportCatalogue catalogue;
     TestWithFiles("tsB_case1_input.txt", "my_output1.txt");
     TestWithFiles("tsB_case2_input.txt", "my_output2.txt");
 }
 
+
+
+
+//struct Test{
+//    Test();
+//    Test(int t):test(t){};
+//    int test;
+//};
+//struct hash_stopptr_pair {
+//    size_t operator()(const pair<Test*, Test*>& p) const
+//    {
+//        auto hash1 = hash<const void*>{}(p.first);
+//        auto hash2 = hash<const void*>{}(p.second);
+//        return hash1*37 + hash2*37*37;
+//    }
+//};
+//int testing(){
+//    using TestPair = std::pair<Test*, Test*>;
+//    std::unordered_map<TestPair, int, hash_stopptr_pair> test;
+//    Test t1(1);
+//    Test t2(2);
+//    test[std::make_pair(&t1, &t2)] = t1.test + t2.test;
+//    return test[{&t1, &t2}];
+//}
+
+
+
 int main()
 {
-    cout << "this is my git project"s << endl;
-    std::istringstream input {
-        "13\n"
-        "Stop Tolstopaltsevo: 55.611087, 37.20829\n"
-        "Stop Marushkino: 55.595884, 37.209755\n"
-        "Bus 256: Biryulyovo  Zapadnoye > Biryusinka > Universam > Biryulyovo Tovarnaya > Biryulyovo Passazhirskaya > Biryulyovo  Zapadnoye\n"
-        "Bus 750: Tolstopaltsevo - Marushkino - Rasskazovka\n"
-        "Stop Rasskazovka: 55.632761, 37.333324\n"
-        "Stop Biryulyovo  Zapadnoye: 55.574371, 37.6517\n"
-        "Stop Biryusinka: 55.581065, 37.64839\n"
-        "Stop Universam: 55.587655, 37.645687\n"
-        "Stop Biryulyovo Tovarnaya: 55.592028, 37.653656\n"
-        "Stop Biryulyovo Passazhirskaya: 55.580999, 37.659164\n"
-        "Bus 828: Biryulyovo  Zapadnoye > Universam > Rossoshanskaya ulitsa > Biryulyovo  Zapadnoye\n"
-        "Stop Rossoshanskaya ulitsa: 55.595579, 37.605757\n"
-        "Stop Prazhskaya: 55.611678, 37.603831\n"
-    };
-    std::ostringstream output;
-    transport_catalogue::catalogue::TransportCatalogue catalogue;
-    input_reader::ParseInputQuery(catalogue, input);
-    std::istringstream query{
-        "6\n"
-        "Bus 256\n"
-        "Bus 750\n"
-        "Bus 751\n"
-        "Stop Samara\n"
-        "Stop Prazhskaya\n"
-        "Stop Biryulyovo  Zapadnoye\n"
-    };
-    stat_reader::LoadInfoQuery(catalogue, query, output);
-    std::cout << output.str() << endl;
+//    cout << "this is my git project"s << endl;
+//    std::istringstream input {
+//        "13\n"
+//        "Stop Tolstopaltsevo: 55.611087, 37.20829\n"
+//        "Stop Marushkino: 55.595884, 37.209755\n"
+//        "Bus 256: Biryulyovo  Zapadnoye > Biryusinka > Universam > Biryulyovo Tovarnaya > Biryulyovo Passazhirskaya > Biryulyovo  Zapadnoye\n"
+//        "Bus 750: Tolstopaltsevo - Marushkino - Rasskazovka\n"
+//        "Stop Rasskazovka: 55.632761, 37.333324\n"
+//        "Stop Biryulyovo  Zapadnoye: 55.574371, 37.6517\n"
+//        "Stop Biryusinka: 55.581065, 37.64839\n"
+//        "Stop Universam: 55.587655, 37.645687\n"
+//        "Stop Biryulyovo Tovarnaya: 55.592028, 37.653656\n"
+//        "Stop Biryulyovo Passazhirskaya: 55.580999, 37.659164\n"
+//        "Bus 828: Biryulyovo  Zapadnoye > Universam > Rossoshanskaya ulitsa > Biryulyovo  Zapadnoye\n"
+//        "Stop Rossoshanskaya ulitsa: 55.595579, 37.605757\n"
+//        "Stop Prazhskaya: 55.611678, 37.603831\n"
+//    };
+//    std::ostringstream output;
+//    transport_catalogue::catalogue::TransportCatalogue catalogue;
+//    input_reader::ParseInputQuery(catalogue, input);
+//    std::istringstream query{
+//        "6\n"
+//        "Bus 256\n"
+//        "Bus 750\n"
+//        "Bus 751\n"
+//        "Stop Samara\n"
+//        "Stop Prazhskaya\n"
+//        "Stop Biryulyovo  Zapadnoye\n"
+//    };
+//    stat_reader::LoadInfoQuery(catalogue, query, output);
+//    std::cout << output.str() << endl;
 
     TestAll();
+
+
+
+//    cout << testing() << endl;
+
     return 0;
 }
