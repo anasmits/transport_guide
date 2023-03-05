@@ -118,15 +118,166 @@ void ParseInputQuery(){
     std::cerr << "ParseInputQuery is OK"s << std::endl;
 }
 
+void ParseWithDelimeter(){
+    using namespace std::literals;
+    std::string line = "  55.611087  ,  37.20829 ,  3900m to Marushkino  "s;
+    std::vector<std::string> expected = {
+      "55.611087"s
+    , "37.20829"s
+    , "3900m to Marushkino"s};
+
+    auto result = input_reader::ParseWithDelimeter(line, ", "s);
+    assert(expected == result);
+
+    std::cerr << "ParseWithDelimeter is OK"s << std::endl;
+}
+
+void ParseStopQueryPtr(){
+    using namespace std::literals;
+    std::string req1 = " Stop  Tolstopaltsevo:   55.611087, 37.20829, 3900m  to   Marushkino "s;
+    std::string req2 = "Stop Marushkino: 55.595884, 37.209755, 9900m to Rasskazovka, 100m to Marushkino, 10m to Everest"s;
+    std::string req3 = "Stop R: 55.0001, 37.0001"s;
+
+    TransportCatalogue catalogue;
+
+    input_reader::ParseStopQueryPtr(catalogue, req1);
+
+        assert(catalogue.FindStop("Tolstopaltsevo"s) != nullptr);
+        assert(catalogue.FindStop("Tolstopaltsevo"s)->coordinates.lat - 55.611087 < TOL);
+        assert(catalogue.FindStop("Tolstopaltsevo"s)->coordinates.lng - 37.20829 < TOL);
+
+        assert(catalogue.FindStop("Marushkino"s) != nullptr);
+        assert(catalogue.FindStop("Marushkino"s)->coordinates.lat == 0);
+        assert(catalogue.FindStop("Marushkino"s)->coordinates.lng == 0);
+
+        assert(catalogue.GetDistanceBetweenStops(catalogue.FindStop("Tolstopaltsevo"s), catalogue.FindStop("Marushkino"s)) == 3900);
+
+        assert(catalogue.FindStop("Rasskazovka"s) == nullptr);
+        assert(catalogue.FindStop("Everest"s) == nullptr);
+
+    input_reader::ParseStopQueryPtr(catalogue, req2);
+
+        assert(catalogue.FindStop("Tolstopaltsevo"s) != nullptr);
+        assert(catalogue.FindStop("Marushkino"s) != nullptr);
+        assert(catalogue.FindStop("Rasskazovka"s) != nullptr);
+        assert(catalogue.FindStop("Everest"s) != nullptr);
+
+        assert(catalogue.FindStop("Marushkino"s)->coordinates.lat - 55.595884 < TOL);
+        assert(catalogue.FindStop("Marushkino"s)->coordinates.lng - 37.209755 < TOL);
+
+        assert(catalogue.FindStop("Marushkino"s) != nullptr);
+        assert(catalogue.GetDistanceBetweenStops(catalogue.FindStop("Tolstopaltsevo"s), catalogue.FindStop("Marushkino"s)) == 3900);
+        assert(catalogue.GetDistanceBetweenStops(catalogue.FindStop("Marushkino"s), catalogue.FindStop("Rasskazovka"s)) == 9900);
+        assert(catalogue.GetDistanceBetweenStops(catalogue.FindStop("Marushkino"s), catalogue.FindStop("Marushkino"s)) == 100);
+        assert(catalogue.GetDistanceBetweenStops(catalogue.FindStop("Marushkino"s), catalogue.FindStop("Everest"s)) == 10);
+
+        assert(catalogue.FindStop("Rasskazovka"s)->coordinates.lat == 0);
+        assert(catalogue.FindStop("Rasskazovka"s)->coordinates.lng == 0);
+
+    input_reader::ParseStopQueryPtr(catalogue, req3);
+
+        assert(catalogue.FindStop("R"s) != nullptr);
+        assert(catalogue.FindStop("R"s)->coordinates.lat - 55.0001 < TOL);
+        assert(catalogue.FindStop("R"s)->coordinates.lng - 37.0001 < TOL);
+
+    std::cerr << "ParseStopQueryPtr is OK"s << std::endl;
+}
+
+void ParseBusQueryPtr(){
+    using namespace std::literals;
+    std::string req1 = "Stop Biryusinka: 55.0001, 37.0001"s;
+    std::string req2 = "Bus  256:   Biryulyovo  Zapadnoye > Biryusinka   > Universam > Biryulyovo Tovarnaya > Biryulyovo Passazhirskaya > Biryulyovo  Zapadnoye"s;
+    std::string req3 = "Bus 750: Tolstopaltsevo - Marushkino - Marushkino  - Rasskazovka  "s;
+
+    TransportCatalogue catalogue;
+
+    input_reader::ParseStopQueryPtr(catalogue, req1);
+    input_reader::ParseBusQueryPtr(catalogue, req2);
+
+        assert(catalogue.FindBus("256"s) != nullptr);
+        assert(catalogue.FindBus("256"s)->stops.size() == 6);
+        assert(catalogue.FindBus("256"s)->circle_rout == true);
+        assert(catalogue.FindStop("Biryulyovo  Zapadnoye"s) != nullptr);
+        assert(catalogue.FindStop("Biryulyovo  Zapadnoye"s)->coordinates.lat == 0);
+        assert(catalogue.FindStop("Biryulyovo  Zapadnoye"s)->coordinates.lng == 0);
+        assert(catalogue.FindStop("Biryusinka"s) != nullptr);
+        assert(catalogue.FindStop("Biryusinka"s)->coordinates.lat - 55.0001 < TOL);
+        assert(catalogue.FindStop("Biryusinka"s)->coordinates.lng - 37.0001 < TOL);
+        assert(catalogue.FindStop("Universam"s) != nullptr);
+        assert(catalogue.FindStop("Biryulyovo Tovarnaya"s) != nullptr);
+        assert(catalogue.FindStop("Biryulyovo Passazhirskaya"s) != nullptr);
+        assert(catalogue.FindStop("Biryulyovo  Zapadnoye"s) != nullptr);
+
+        assert(catalogue.FindBus("750"s) == nullptr);
+
+    input_reader::ParseBusQueryPtr(catalogue, req3);
+
+        assert(catalogue.FindBus("256"s) != nullptr);
+        assert(catalogue.FindBus("750"s) != nullptr);
+        assert(catalogue.FindBus("750"s)->stops.size() == 7);
+        assert(catalogue.FindBus("750"s)->circle_rout == false);
+        assert(catalogue.FindStop("Tolstopaltsevo"s) != nullptr);
+        assert(catalogue.FindStop("Marushkino"s) != nullptr);
+        assert(catalogue.FindStop("Rasskazovka"s) != nullptr);
+
+    std::cerr << "ParseBusQueryPtr is OK"s << std::endl;
+}
+
+void ParseInputQueryPtr(){
+    using namespace std::literals;
+    std::istringstream input {
+        "13\n"
+        "Stop Tolstopaltsevo: 55.611087, 37.20829, 3900m to Marushkino\n"
+        "Stop Marushkino: 55.595884, 37.209755, 9900m to Rasskazovka, 100m to Marushkino\n"
+        "Bus 256: Biryulyovo Zapadnoye > Biryusinka > Universam > Biryulyovo Tovarnaya > Biryulyovo Passazhirskaya > Biryulyovo Zapadnoye\n"
+        "Bus 750: Tolstopaltsevo - Marushkino - Marushkino - Rasskazovka\n"
+        "Stop Rasskazovka: 55.632761, 37.333324, 9500m to Marushkino\n"
+        "Stop Biryulyovo Zapadnoye: 55.574371, 37.6517, 7500m to Rossoshanskaya ulitsa, 1800m to Biryusinka, 2400m to Universam\n"
+        "Stop Biryusinka: 55.581065, 37.64839, 750m to Universam\n"
+        "Stop Universam: 55.587655, 37.645687, 5600m to Rossoshanskaya ulitsa, 900m to Biryulyovo Tovarnaya\n"
+        "Stop Biryulyovo Tovarnaya: 55.592028, 37.653656, 1300m to Biryulyovo Passazhirskaya\n"
+        "Stop Biryulyovo Passazhirskaya: 55.580999, 37.659164, 1200m to Biryulyovo Zapadnoye\n"
+        "Bus 828: Biryulyovo Zapadnoye > Universam > Rossoshanskaya ulitsa > Biryulyovo Zapadnoye\n"
+        "Stop Rossoshanskaya ulitsa: 55.595579, 37.605757\n"
+        "Stop Prazhskaya: 55.611678, 37.603831\n"
+    };
+    std::ostringstream output;
+    transport_catalogue::catalogue::TransportCatalogue catalogue;
+    input_reader::ParseInputQuery(catalogue, input);
+
+    assert(catalogue.FindStop("Tolstopaltsevo"s) != nullptr);
+    assert(catalogue.FindStop("Marushkino"s) != nullptr);
+    assert(catalogue.FindStop("Rasskazovka"s) != nullptr);
+    assert(catalogue.FindStop("Biryulyovo Zapadnoye"s) != nullptr);
+    assert(catalogue.FindStop("Biryusinka"s) != nullptr);
+    assert(catalogue.FindStop("Universam"s) != nullptr);
+    assert(catalogue.FindStop("Biryulyovo Tovarnaya"s) != nullptr);
+    assert(catalogue.FindStop("Biryulyovo Passazhirskaya"s) != nullptr);
+    assert(catalogue.FindStop("Rossoshanskaya ulitsa"s) != nullptr);
+    assert(catalogue.FindStop("Prazhskaya"s) != nullptr);
+
+    assert(catalogue.FindBus("256"s) != nullptr);
+    assert(catalogue.FindBus("828"s) != nullptr);
+    assert(catalogue.FindBus("750"s) != nullptr);
+
+    std::cerr << "ParseInputQueryPtr is OK"s << std::endl;
+
+}
+
 void RunTest(){
     using namespace std::literals;
 
     std::cerr << std::endl << "InputReader Test starts" << std::endl;
-    ParseInputStream();
-    ParseLine();
-    ParseStopQuery();
-    ParseBusQuery();
-    ParseInputQuery();
+//    ParseInputStream();
+//    ParseLine();
+//    ParseStopQuery();
+//    ParseBusQuery();
+//    ParseInputQuery();
+    ParseWithDelimeter();
+    ParseStopQueryPtr();
+    ParseBusQueryPtr();
+    ParseInputQueryPtr();
+
 
     std::cerr << "Test InputReader is passed"s << std::endl;
 }

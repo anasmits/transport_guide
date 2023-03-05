@@ -202,7 +202,7 @@ void GetBusInfo(){
     cat.AddBus(bus);
 
     std::ostringstream out;
-    out << "Bus 11: 3 stops on route, 3 unique stops, " << std::setprecision(6) << 10 << " route length, "s << std::setprecision(6) << curvature << " curvature."s;
+    out << "Bus 11: 3 stops on route, 3 unique stops, " << std::setprecision(6) << 10 << " route length, "s << std::setprecision(6) << curvature << " curvature"s;
     std::string expected_bus_info = out.str();
     assert(cat.GetBusInfo("11"s) == expected_bus_info);
 

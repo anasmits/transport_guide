@@ -7,6 +7,7 @@
 #include <vector>
 #include <set>
 #include <tuple>
+#include <iostream>
 
 #include "geo.h"
 
@@ -15,8 +16,10 @@ namespace catalogue{
 
 const double TOL = 0.000001;
 
+using namespace std::literals;
+
 struct Stop{
-    Stop();
+    Stop() = default;
     Stop(std::string name, double lat, double lng)
         : name(std::move(name))
         , coordinates({std::move(lat), std::move(lng)}){};
@@ -30,8 +33,8 @@ struct Stop{
                 && (std::abs(coordinates.lng - other.coordinates.lng) < TOL);
     };
 
-    std::string name;
-    Coordinates coordinates;
+    std::string name = ""s;
+    Coordinates coordinates = {0, 0};
 };
 
 using PairStopPtr = std::pair<Stop*, Stop*>;
@@ -51,6 +54,62 @@ struct hash_constpair_stopptr{
         auto hash2 = std::hash<const void*>{}(p.second);
         return hash1*37. + hash2*37.*37.;
     }
+};
+
+
+class StopPtr {
+public:
+    StopPtr() = default;
+    explicit StopPtr(std::string name){
+        raw_ptr_ = new Stop(name, {});
+    }
+    explicit StopPtr(std::string name, Coordinates coordinates){
+        raw_ptr_ = new Stop(name, coordinates);
+    }
+    explicit StopPtr(Stop* raw_ptr) noexcept {
+        raw_ptr_ = raw_ptr;
+    }
+
+    StopPtr(const StopPtr&) = delete;
+    StopPtr& operator=(const StopPtr&) = delete;
+
+    StopPtr(StopPtr&& other){
+        raw_ptr_ = std::exchange(other.raw_ptr_, nullptr);
+    }
+
+    StopPtr& operator=(StopPtr&& other){
+        if (this != &other) {
+            std::swap(other.raw_ptr_, raw_ptr_);
+            return *this;
+        }
+    }
+
+    ~StopPtr() {
+        delete raw_ptr_;
+    }
+
+    [[nodiscard]] Stop* Release() noexcept {
+        return std::exchange(raw_ptr_, nullptr);
+    }
+
+    explicit operator bool() const {
+        return raw_ptr_ != nullptr;
+    }
+
+    Stop* Get() const noexcept {
+        return raw_ptr_;
+    }
+
+    const Stop* GetConst() const noexcept {
+        return raw_ptr_;
+    }
+
+    void swap(StopPtr& other) noexcept {
+        std::swap(other.raw_ptr_, raw_ptr_);
+    }
+
+private:
+    Stop* raw_ptr_ = nullptr;
 };
 
 struct Bus{
@@ -105,6 +164,7 @@ public:
     TransportCatalogue operator=(const TransportCatalogue&) = delete;
 
     void AddStop(const Stop& stop);
+    void AddStop(const Stop* stop);
     void AddBus(const Bus& bus);
 
     void SetBusForStops(const std::vector<Stop*>& stops, std::string_view bus_name);
@@ -122,9 +182,10 @@ public:
     std::string GetBusInfo(const std::string& bus_name) const;
     std::string GetStopInfo(const std::string& stop_name) const;
 
-    double CalculateGeoRouteLength(const Bus* bus);
-    int CalculateRouteLength(const Bus* bus);
-    double CalculateCurvature(double geo_distance, int m_distance);
+/*This functions must be checked then commented*/
+    double CalculateGeoRouteLength(const Bus* bus) const;
+    int CalculateRouteLength(const Bus* bus) const;
+    double CalculateCurvature(double geo_distance, int m_distance) const;
 
 private:
     std::deque<Stop> stops_;
@@ -138,6 +199,12 @@ private:
 //    std::unordered_map<Bus*, int, std::hash<const void*>> route_length;
 //    std::unordered_map<Bus*, double, std::hash<const void*>> curvature;
     std::unordered_map<Stop*, std::set<std::string_view>> stopptr_to_busnames;
+
+/*This functions must be checked then uncommented*/
+//    double CalculateGeoRouteLength(const Bus* bus) const;
+//    int CalculateRouteLength(const Bus* bus) const;
+//    double CalculateCurvature(double geo_distance, int m_distance) const;
+
 };
 
 
