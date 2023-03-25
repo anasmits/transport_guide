@@ -1,0 +1,36 @@
+{
+  "base_requests": [
+    {      "type": "Bus",      "name": "114",      "stops": ["Sea railway station", "Riviera bridge"],      "is_roundtrip": false
+    },
+    {
+      "type": "Stop",
+      "name": "Riviera bridge",
+      "latitude": 43.587795,
+      "longitude": 39.716901,
+      "road_distances": {"Sea railway station": 850}
+    },
+    {
+      "type": "Stop",
+      "name": "Sea railway station",
+      "latitude": 43.581969,
+      "longitude": 39.719848,
+      "road_distances": {"Riviera bridge": 850}
+    }
+	
+	{
+      "type": "Stop",
+      "name": "Stop1",
+      "latitude": 43.581969,
+      "longitude": 39.719848,
+      "road_distances": {"Riviera bridge": 850}
+    }
+  ],
+  "stat_requests": [
+   { "id": 1, "type": "Stop", "name": "Riviera bridge" },
+    { "id": 2, "type": "Bus", "name": "114" },
+	{ "id": 3, "type": "Bus", "name": "1"},
+	{ "id": 4, "type": "Stop", "name": "Stop"} ,
+	{ "id": 5, "type": "Stop", "name": "Stop1"} , 
+	{}
+  ]
+} 

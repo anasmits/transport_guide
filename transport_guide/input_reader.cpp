@@ -123,6 +123,7 @@ void ParseInputQueryPtr(TransportCatalogue& catalogue, std::istream& input){
             ParseBusQueryPtr(catalogue, line);
         }
     }
+    catalogue.CalculateRouteAndCurvature();
 }
 
 namespace detail{

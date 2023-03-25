@@ -1,6 +1,5 @@
 #include "transport_catalogue.h"
 
-#include <iostream>
 #include <iomanip>
 #include <cassert>
 #include <sstream>
@@ -26,25 +25,20 @@ void TransportCatalogue::AddStop(const Stop* stop){
 void TransportCatalogue::AddBus(const Bus& bus){
     buses_.push_back(std::move(bus));
     busname_to_bus[buses_.back().name] = &buses_.back();
-
-//    geo_route_length.insert(std::make_pair(&buses_.back(), CalculateGeoRouteLength(busname_to_bus[buses_.back().name])));
-//    route_length.insert(std::make_pair(&buses_.back(), CalculateRouteLength(busname_to_bus[buses_.back().name])));
-//    curvature.insert(std::make_pair(&buses_.back(), CalculateCurvature(buses_.back().name)));
-//    busptr_to_geo_m_curv.insert(std::make_pair(&buses_.back(), std::make_tuple(geo, m, curv)));
     SetBusForStops(buses_.back().stops, buses_.back().name);
 }
 
 void TransportCatalogue::SetBusForStops(const std::vector<Stop*>& stops, std::string_view bus_name){
     for(auto stop : stops){
-        stopptr_to_busnames[stopname_to_stop.at(stop->name)].insert(bus_name);
+        stopptr_to_busptr[stopname_to_stop.at(stop->name)].insert(FindBus(bus_name));
     }
 }
 
-std::set<std::string_view> TransportCatalogue::GetBusesForStop(Stop* stop) const{
-    if(stopptr_to_busnames.find(stop) != stopptr_to_busnames.end()){
-        return stopptr_to_busnames.at(stop);
+const std::set<Bus*>* TransportCatalogue::GetBusesForStop(Stop* stop) const{
+    if(stopptr_to_busptr.find(stop) != stopptr_to_busptr.end()){
+        return &stopptr_to_busptr.at(stop);
     }
-    return {};
+    return nullptr;
 }
 
 void TransportCatalogue::SetDistanceBetweenStops(const Stop* stop_from, const Stop* stop_to, int distance){
@@ -80,14 +74,14 @@ int TransportCatalogue::GetGeoDistanceBetweenStops(const Stop* stop_from, const 
     }
 }
 
-Stop* TransportCatalogue::FindStop(const std::string stop_name) const{
+Stop* TransportCatalogue::FindStop(const std::string_view stop_name) const{
     if(stopname_to_stop.find(stop_name) == stopname_to_stop.end()){
         return nullptr;
     }
     return stopname_to_stop.at(stop_name);
 }
 
-Bus* TransportCatalogue::FindBus(const std::string bus_name) const {
+Bus* TransportCatalogue::FindBus(const std::string_view bus_name) const {
     if(busname_to_bus.find(bus_name) == busname_to_bus.end()){
         return nullptr;
     }
@@ -123,6 +117,15 @@ double TransportCatalogue::CalculateCurvature(double geo_distance, int m_distanc
     return static_cast<double>(m_distance) / geo_distance;
 }
 
+void TransportCatalogue::CalculateRouteAndCurvature(){
+    for(const auto& [busname, busptr] : busname_to_bus){
+        double geo = CalculateGeoRouteLength(busptr);
+        int m = CalculateRouteLength(busptr);
+        double curv =  CalculateCurvature(geo, m);
+        busptr_to_geo_m_curv.insert(std::make_pair(busptr, std::make_tuple(geo, m, curv)));
+    }
+}
+
 std::string TransportCatalogue::GetBusInfo(const std::string& bus_name) const{
     using namespace std::literals;
 
@@ -133,19 +136,19 @@ std::string TransportCatalogue::GetBusInfo(const std::string& bus_name) const{
     std::unordered_set<Stop*> unique_stops = {bus->stops.begin(), bus->stops.end()};
 
 
-    double geo = CalculateGeoRouteLength(bus);
-    int m = CalculateRouteLength(bus);
-    double curv =  CalculateCurvature(geo, m);
+//    double geo = CalculateGeoRouteLength(bus);
+//    int m = CalculateRouteLength(bus);
+//    double curv =  CalculateCurvature(geo, m);
 //    busptr_to_geo_m_curv.insert(std::make_pair(&buses_.back(), std::make_tuple(geo, m, curv)));
 
     std::ostringstream out;
     out << "Bus " << bus_name << ": "
         << bus->stops.size() << " stops on route, "s
         << unique_stops.size() << " unique stops, "s
-//        << std::setprecision(6) << std::get<1>(busptr_to_geo_m_curv.at(bus)) << " route length, "s
-//        << std::setprecision(6) << std::get<2>(busptr_to_geo_m_curv.at(bus)) << " curvature"s;
-        << std::setprecision(6) << m<< " route length, "s
-        << std::setprecision(6) << curv << " curvature"s;
+        << std::setprecision(6) << std::get<1>(busptr_to_geo_m_curv.at(bus)) << " route length, "s
+        << std::setprecision(6) << std::get<2>(busptr_to_geo_m_curv.at(bus)) << " curvature"s;
+//        << std::setprecision(6) << m << " route length, "s
+//        << std::setprecision(6) << curv << " curvature"s;
     return out.str();
 }
 
@@ -157,13 +160,25 @@ std::string TransportCatalogue::GetStopInfo(const std::string &stop_name) const
     if(stop == nullptr){
         return "Stop "s + stop_name + ": not found"s;
     }
-    if(stopptr_to_busnames.find(stop) == stopptr_to_busnames.end()){
+    if(stopptr_to_busptr.find(stop) == stopptr_to_busptr.end()){
         return "Stop "s + stop_name + ": no buses"s;
     }
     std::ostringstream out;
     out << "Stop " << stop_name << ": buses";
-    for(const auto& bus_name: stopptr_to_busnames.at(stop)){
-        out << " "s << bus_name;
+    for(const auto& busptr: stopptr_to_busptr.at(stop)){
+        out << " "s << busptr->name;
     }
     return out.str();
+}
+
+
+std::unordered_map<std::string, double> TransportCatalogue::GetBusStat(const std::string_view& bus_name) const{
+    std::unordered_map<std::string, double> result;
+    auto bus = busname_to_bus.at(bus_name);
+    result["curvature"s] = std::get<2>(busptr_to_geo_m_curv.at(bus));
+    result["route_length"s] = std::get<1>(busptr_to_geo_m_curv.at(bus));
+    result["stop_count"s] = bus->stops.size();
+    std::unordered_set<Stop*> unique_stops = {bus->stops.begin(), bus->stops.end()};
+    result["unique_stop_count"s] = unique_stops.size();
+    return result;
 }

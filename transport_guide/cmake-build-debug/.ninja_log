@@ -1,0 +1,13 @@
+# ninja log v5
+7	889	7013545054704259	CMakeFiles/transport_guide.dir/domain.cpp.obj	62d22d84e0a55011
+8	1324	7013545058992786	CMakeFiles/transport_guide.dir/input_reader.cpp.obj	e2553e13eea3c1ad
+890	1674	7013545062553265	CMakeFiles/transport_guide.dir/stat_reader.cpp.obj	83d6bb8a98673002
+2	2032	7013545066103768	CMakeFiles/transport_guide.dir/transport_catalogue.cpp.obj	ef791b36d0ab52b2
+2032	2065	7013545066472776	CMakeFiles/transport_guide.dir/svg.cpp.obj	accfc83c66da85c9
+2065	2451	7013545070332453	CMakeFiles/transport_guide.dir/geo.cpp.obj	91d1cbd508e3cbb6
+2451	2513	7013545070960768	CMakeFiles/transport_guide.dir/map_render.cpp.obj	baaa9be992e5ee7b
+1324	2612	7013545071908233	CMakeFiles/transport_guide.dir/json.cpp.obj	d25438f20d6a7125
+0	3513	7013545080884502	CMakeFiles/transport_guide.dir/main.cpp.obj	a092bb5a805c323e
+5	50	7013545391726299	CMakeFiles/transport_guide.dir/request_handler.cpp.obj	9459bc3adc71087f
+4	3221	7013545422593720	CMakeFiles/transport_guide.dir/json_reader.cpp.obj	c36f351b01265dd4
+3221	5296	7013545444144248	transport_guide.exe	3c1895d365c3705d

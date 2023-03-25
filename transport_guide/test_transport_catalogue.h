@@ -203,6 +203,7 @@ void GetBusInfo(){
     cat.SetDistanceBetweenStops(cat.FindStop("Second"s), cat.FindStop("Sixth"s), 2);
 
     cat.AddBus(bus);
+    cat.CalculateRouteAndCurvature();
 
     std::ostringstream out;
     out << "Bus 11: 3 stops on route, 3 unique stops, " << std::setprecision(6) << 10 << " route length, "s << std::setprecision(6) << curvature << " curvature"s;
@@ -316,16 +317,16 @@ void SetBusForStops(){
     cat.SetBusForStops(cat.FindBus("345"s)->stops, "345"s);
     cat.SetBusForStops(cat.FindBus("23"s)->stops, "23"s);
 
-    std::set<std::string_view> expected345 = {"345"s, "23"s};
-    std::set<std::string_view> expected23 = {"23"s};
+    const std::set<Bus*> expected345 = {cat.FindBus("345"), cat.FindBus("23"s)};
+    const std::set<Bus*> expected23 = {cat.FindBus("23"s)};
 
-    auto result1 = cat.GetBusesForStop(cat.FindStop("First"s));
+    auto result1 = cat.GetBusesForStop(cat.FindStop("First"s)); // type is const set<Bus*>*
     auto result2 = cat.GetBusesForStop(cat.FindStop("Second"s));
     auto result3 = cat.GetBusesForStop(cat.FindStop("Third"s));
 
-    assert(result1 == expected345);
-    assert(result2  == expected345);
-    assert(result3 == expected23);
+    assert(*result1 == expected345);
+    assert(*result2 == expected345);
+    assert(*result3 == expected23);
 
     std::cerr << "SetBusForStops is OK"s << std::endl;
 }
@@ -347,14 +348,14 @@ void GetBusesForStop(){
 
     cat.SetBusForStops(cat.FindBus("345"s)->stops, "345"s);
 
-    std::set<std::string_view> expected2 = {"345"s};
-    std::set<std::string_view> expected_empty = {};
+    std::set<Bus*> expected2 = {cat.FindBus("345"s)};
+    std::set<Bus*> expected_empty = {};
 
     auto result1 = cat.GetBusesForStop(cat.FindStop("First"s));
     auto result2 = cat.GetBusesForStop(cat.FindStop("Third"s));
 
-    assert(result1 == expected2);
-    assert(result2 == expected_empty);
+    assert(*result1 == expected2);
+    assert(result2 == nullptr);
 
     std::cerr << "GetBusesForStop is OK"s << std::endl;
 }

@@ -6,17 +6,22 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(transport_guide main.cpp
-                transport_catalogue.h
-                transport_catalogue.cpp
-                input_reader.h
-                input_reader.cpp
-                stat_reader.h
-                stat_reader.cpp
-                geo.h
+                transport_catalogue.h transport_catalogue.cpp
+                input_reader.h  input_reader.cpp
+                domain.h domain.cpp
+                stat_reader.h stat_reader.cpp
+                geo.h geo.cpp
+                json.h json.cpp
+                json_reader.h json_reader.cpp
+                svg.h svg.cpp
+                map_render.h map_render.cpp
+                request_handler.h request_handler.cpp
+
 
                 test_transport_catalogue.h
                 test_input_reader.h
                 test_stat_reader.h
+                test_json.h
             )
 
 install(TARGETS transport_guide

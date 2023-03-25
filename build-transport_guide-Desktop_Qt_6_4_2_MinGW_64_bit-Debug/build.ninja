@@ -67,8 +67,50 @@ build CMakeFiles/transport_guide.dir/input_reader.cpp.obj: CXX_COMPILER__transpo
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
 
+build CMakeFiles/transport_guide.dir/domain.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/domain.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\domain.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
+
 build CMakeFiles/transport_guide.dir/stat_reader.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/stat_reader.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\stat_reader.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
+
+build CMakeFiles/transport_guide.dir/geo.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/geo.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\geo.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
+
+build CMakeFiles/transport_guide.dir/json.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/json.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\json.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
+
+build CMakeFiles/transport_guide.dir/json_reader.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/json_reader.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\json_reader.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
+
+build CMakeFiles/transport_guide.dir/svg.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/svg.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\svg.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
+
+build CMakeFiles/transport_guide.dir/map_render.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/map_render.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\map_render.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
+
+build CMakeFiles/transport_guide.dir/request_handler.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/request_handler.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\request_handler.cpp.obj.d
   FLAGS = -DQT_QML_DEBUG -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
@@ -81,7 +123,7 @@ build CMakeFiles/transport_guide.dir/stat_reader.cpp.obj: CXX_COMPILER__transpor
 #############################################
 # Link the executable transport_guide.exe
 
-build transport_guide.exe: CXX_EXECUTABLE_LINKER__transport_guide_Debug CMakeFiles/transport_guide.dir/main.cpp.obj CMakeFiles/transport_guide.dir/transport_catalogue.cpp.obj CMakeFiles/transport_guide.dir/input_reader.cpp.obj CMakeFiles/transport_guide.dir/stat_reader.cpp.obj
+build transport_guide.exe: CXX_EXECUTABLE_LINKER__transport_guide_Debug CMakeFiles/transport_guide.dir/main.cpp.obj CMakeFiles/transport_guide.dir/transport_catalogue.cpp.obj CMakeFiles/transport_guide.dir/input_reader.cpp.obj CMakeFiles/transport_guide.dir/domain.cpp.obj CMakeFiles/transport_guide.dir/stat_reader.cpp.obj CMakeFiles/transport_guide.dir/geo.cpp.obj CMakeFiles/transport_guide.dir/json.cpp.obj CMakeFiles/transport_guide.dir/json_reader.cpp.obj CMakeFiles/transport_guide.dir/svg.cpp.obj CMakeFiles/transport_guide.dir/map_render.cpp.obj CMakeFiles/transport_guide.dir/request_handler.cpp.obj
   FLAGS = -DQT_QML_DEBUG -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\transport_guide.dir
