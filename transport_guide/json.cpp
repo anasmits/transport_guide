@@ -26,6 +26,7 @@ namespace json {
             }
             return Node(std::move(result));
         }
+
         using Number = std::variant<int, double>;
 
         Node LoadNumber(std::istream& input) {
@@ -342,6 +343,11 @@ namespace json {
         out << "null"sv;
     }
 
+    void PrintValue(std::nullptr_t, PrintContext& context) {
+        using namespace std::literals;
+        context.out << "null"sv;
+    }
+
     // Перегрузка функции PrintValue для вывода значений int
     void PrintValue(const int& value, std::ostream& out) {
         out << value;
@@ -397,9 +403,8 @@ namespace json {
 
     // Перегрузка функции PrintValue для вывода значений Node
     void PrintNode(const Node& node, std::ostream& out) {
-
         std::visit(
-                [&out](const auto& value){ PrintValue(value, out); },
+                [&out](const auto& value){ PrintValue(value, out); }, // - original
                 node.GetValue());
     }
 
@@ -452,5 +457,6 @@ namespace json {
     void Print(const Document& doc, std::ostream& output) {
         PrintNode(doc.GetRoot(), output);
     }
+
 
 }  // namespace json

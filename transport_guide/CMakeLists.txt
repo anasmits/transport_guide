@@ -14,7 +14,7 @@ add_executable(transport_guide main.cpp
                 json.h json.cpp
                 json_reader.h json_reader.cpp
                 svg.h svg.cpp
-                map_render.h map_render.cpp
+                map_renderer.h map_renderer.cpp
                 request_handler.h request_handler.cpp
 
 
@@ -22,6 +22,7 @@ add_executable(transport_guide main.cpp
                 test_input_reader.h
                 test_stat_reader.h
                 test_json.h
+                test_map_renderer.h
             )
 
 install(TARGETS transport_guide

@@ -2,8 +2,9 @@
 
 namespace request_handler{
 
-RequestHandler::RequestHandler(const TransportCatalogue& catalogue):
-    catalogue_(catalogue){}
+RequestHandler::RequestHandler(const TransportCatalogue& catalogue, const renderer::MapRenderer& renderer)
+    : catalogue_(catalogue)
+    , renderer_(renderer){}
 
 std::optional<const std::set<RequestHandler::BusPtr>*>  RequestHandler::GetBusesByStop(const std::string& stop_name) const{
     if (catalogue_.FindStop(stop_name) != nullptr){
@@ -22,5 +23,10 @@ std::optional<RequestHandler::BusStat> RequestHandler::GetBusStat(const std::str
     }
     return std::nullopt;
 }
+
+svg::Document RequestHandler::RenderMap() const{
+    auto buses_ptr = catalogue_.GetBusesPtr();
+    return renderer_.RenderMap(buses_ptr);
+};
 
 } // namespace request_handler

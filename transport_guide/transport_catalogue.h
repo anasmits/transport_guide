@@ -46,6 +46,8 @@ public:
     std::string GetStopInfo(const std::string& stop_name) const;
 
     std::unordered_map<std::string, double> GetBusStat(const std::string_view& bus_name) const;
+    const std::deque<Bus>* GetBusesPtr() const;
+    const std::deque<Stop>* GetStopsPtr() const;
 
     void CalculateRouteAndCurvature();
 /*This functions must be checked then commented*/

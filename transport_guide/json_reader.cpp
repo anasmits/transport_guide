@@ -4,29 +4,40 @@ namespace json_reader{
 
 using namespace std::literals;
 
-void LoadJSON(transport_catalogue::catalogue::TransportCatalogue& catalogue, std::istream& input, std::ostream& output){
+void LoadJSON(transport_catalogue::catalogue::TransportCatalogue& catalogue, renderer::MapRenderer& renderer, std::istream& input, std::ostream& output){
 
-    request_handler::RequestHandler rh_(catalogue);
+    request_handler::RequestHandler rh_(catalogue, renderer);
 
     using namespace json;
 
     Document document = Load(input);
     Dict request_dict = document.GetRoot().AsMap();
+
     if (request_dict.empty()){
         throw std::out_of_range("Request is empty"s);
     }
+
     if (request_dict.find("base_requests"s) == request_dict.end()){
         throw std::invalid_argument("base_requests are invalid"s);
     } else {
         auto base_requests = request_dict.at("base_requests");
         ParseBaseRequests(catalogue, base_requests.AsArray());
     }
+
+    if (request_dict.find("render_settings"s) == request_dict.end()){
+        throw std::invalid_argument("render_settings are invalid"s);
+    } else {
+        auto render_settings = request_dict.at("render_settings");
+        ParseRenderSettingsRequests(renderer, render_settings.AsMap());
+    }
+
     if (request_dict.find("stat_requests"s) == request_dict.end()){
         throw std::invalid_argument("stat_requests are invalid"s);
     } else {
         auto stat_requests = request_dict.at("stat_requests");
         ParseStatRequests(rh_, stat_requests.AsArray(), output);
     }
+
 }
 
 void ParseBaseRequests(transport_catalogue::catalogue::TransportCatalogue& catalogue, const Array& base_requests){
@@ -105,13 +116,15 @@ void ParseStatRequests(const request_handler::RequestHandler& rh_, const Array& 
         Dict request_answer;
         if (stat_requests[i].AsMap().at("type"s).AsString() == "Stop"s){
             ParseStatStopRequest(rh_, stat_requests[i].AsMap(), request_answer );
-        } else {
+        } else if (stat_requests[i].AsMap().at("type"s).AsString() == "Bus"s){
             ParseStatBusRequest(rh_, stat_requests[i].AsMap(), request_answer);
+        } else {
+            ParseStatMapRequest(rh_, stat_requests[i].AsMap(), request_answer);
         }
         stat_answer.emplace_back(request_answer);
     }
 
-    json::Print(Document(stat_answer),output);
+    json::Print(Document(stat_answer), output);
 }
 
 void ParseStatStopRequest(const request_handler::RequestHandler& rh_, const Dict& stat_request, Dict& request_answer){
@@ -127,7 +140,6 @@ void ParseStatStopRequest(const request_handler::RequestHandler& rh_, const Dict
         Array buses;
         std::set<std::string> b;
         for(const auto& bus : *buses_ptr.value()){
-//            buses.emplace_back(bus->name);
             b.emplace(bus->name);
         }
         for(const auto& bus_name : b){
@@ -155,6 +167,82 @@ void ParseStatBusRequest(const request_handler::RequestHandler& rh_, const Dict&
         request_answer = {{"request_id"s, request_id}, {"error_message"s, "not found"s}};
     }
 }
+
+void ParseStatMapRequest(const request_handler::RequestHandler& rh_, const Dict& stat_request, Dict& request_answer){
+    int request_id = stat_request.at("id"s).AsInt();
+    svg::Document document = rh_.RenderMap();
+    std::ostringstream out_strstm;
+    document.Render(out_strstm);
+    std::string s = out_strstm.str();
+    request_answer = {{"request_id"s, request_id}, {"map"s, s }};
+}
+
+void ParseRenderSettingsRequests(renderer::MapRenderer& renderer, const Dict& rending_setting_request){
+    using namespace svg;
+
+    double width = rending_setting_request.at("width"s).AsDouble();
+    double height = rending_setting_request.at("height"s).AsDouble();
+
+    double padding = rending_setting_request.at("padding"s).AsDouble();
+
+    double line_width = rending_setting_request.at("line_width"s).AsDouble();
+    double stop_radius = rending_setting_request.at("stop_radius"s).AsDouble();
+
+    int bus_label_font_size = rending_setting_request.at("bus_label_font_size"s).AsInt();
+    Array bus_label_offset_Array = rending_setting_request.at("bus_label_offset"s).AsArray();
+    std::vector<double> bus_label_offset = {bus_label_offset_Array[0].AsDouble(), bus_label_offset_Array[1].AsDouble()};
+
+    int stop_label_font_size = rending_setting_request.at("stop_label_font_size"s).AsInt();
+    Array stop_label_offset_Array = rending_setting_request.at("stop_label_offset"s).AsArray();
+    std::vector<double> stop_label_offset = {stop_label_offset_Array[0].AsDouble(), stop_label_offset_Array[1].AsDouble()};
+
+
+    double underlayer_width = rending_setting_request.at("underlayer_width"s).AsDouble();
+
+    std::variant<std::monostate, std::string, svg::Rgb, svg::Rgba> underlayer_color = std::monostate();
+    if (rending_setting_request.at("underlayer_color"s).IsString()){
+        underlayer_color = rending_setting_request.at("underlayer_color"s).AsString();
+    } else {
+        auto color_array = rending_setting_request.at("underlayer_color"s).AsArray();
+        if (color_array.size() == 3){
+            underlayer_color = svg::Rgb(color_array[0].AsInt(), color_array[1].AsInt(), color_array[2].AsInt());
+        } else{
+            underlayer_color = svg::Rgba(color_array[0].AsInt(), color_array[1].AsInt(), color_array[2].AsInt(), color_array[3].AsDouble());
+        }
+    }
+
+    Array color_array = rending_setting_request.at("color_palette"s).AsArray();
+    std::vector<std::variant<std::monostate, std::string, svg::Rgb, svg::Rgba>> color_palette;
+
+    for(auto& color : color_array){
+        if (color.IsString()) {
+            color_palette.emplace_back(color.AsString());
+        } else {
+            auto color_ar = color.AsArray();
+            if (color_ar.size() == 3){
+                color_palette.emplace_back(svg::Rgb(color_ar[0].AsInt(), color_ar[1].AsInt(), color_ar[2].AsInt()));
+            } else {
+                color_palette.emplace_back(svg::Rgba(color_ar[0].AsInt(), color_ar[1].AsInt(), color_ar[2].AsInt(), color_ar[3].AsDouble()));
+            }
+        }
+    }
+
+    renderer::MapRendererSettings settings = { width
+                                            , height
+                                            , padding
+                                            , line_width
+                                            , stop_radius
+                                            , bus_label_font_size
+                                            , bus_label_offset
+                                            , stop_label_font_size
+                                            , stop_label_offset
+                                            , underlayer_width
+                                            , underlayer_color
+                                            , color_palette
+                                             };
+    renderer.SetSettings(settings);
+}
+
 
 } //namespace json_reader
 

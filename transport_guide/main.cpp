@@ -6,6 +6,7 @@
 #include "test_transport_catalogue.h"
 #include "test_stat_reader.h"
 #include "test_json.h"
+#include "test_map_renderer.h"
 
 #include "json_reader.h"
 
@@ -32,6 +33,7 @@ void TestAll(){
     input_reader::test::RunTest();
     stat_reader::test::RunTest();
     test_json::RunTest();
+//    test_map_renderer::RunTest();
 
 
     transport_catalogue::catalogue::TransportCatalogue catalogue;
@@ -73,16 +75,18 @@ int main()
 //    stat_reader::detail::LoadInfoQuery(catalogue, query, output);
 //    std::cout << output.str() << endl;
 
-    TestAll();
+//    TestAll();
 
+    setlocale(LC_ALL,"ru");
     transport_catalogue::catalogue::TransportCatalogue catalogue;
-
-    std::ifstream input("json_i.json");
-    std::ofstream output("output_json.json");
+    renderer::MapRenderer renderer;
+    std::ifstream input ("input_json.json"); //("test.json"); //
+    std::ofstream output("output_1231.json");
     if(input.is_open() ){
-        json_reader::LoadJSON(catalogue, input, output);
+        json_reader::LoadJSON(catalogue, renderer, input, output);
     }
     input.close();
-
+//    auto doc = renderer.RenderMap(catalogue.GetBusesPtr());
+//    doc.Render(std::cout);
     return 0;
 }

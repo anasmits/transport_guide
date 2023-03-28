@@ -96,6 +96,8 @@ namespace json {
         int indent_step = 4;
         int indent = 0;
 
+//        PrintContext(std::ostream& o, int is, int i): out(o), indent_step(is), indent(i){};
+
         void PrintIndent() const {
             for (int i = 0; i < indent; ++i) {
                 out.put(' ');
@@ -110,7 +112,7 @@ namespace json {
 
 //    template <typename Value>
 //    void PrintValue(const Value& value, const PrintContext& ctx) {
-//        ...
+//    ...
 //    }
 
     //----------------------

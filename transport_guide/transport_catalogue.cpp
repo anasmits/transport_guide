@@ -171,7 +171,6 @@ std::string TransportCatalogue::GetStopInfo(const std::string &stop_name) const
     return out.str();
 }
 
-
 std::unordered_map<std::string, double> TransportCatalogue::GetBusStat(const std::string_view& bus_name) const{
     std::unordered_map<std::string, double> result;
     auto bus = busname_to_bus.at(bus_name);
@@ -181,4 +180,12 @@ std::unordered_map<std::string, double> TransportCatalogue::GetBusStat(const std
     std::unordered_set<Stop*> unique_stops = {bus->stops.begin(), bus->stops.end()};
     result["unique_stop_count"s] = unique_stops.size();
     return result;
+}
+
+const std::deque<Bus>* TransportCatalogue::GetBusesPtr() const {
+    return &buses_;
+}
+
+const std::deque<Stop>* TransportCatalogue::GetStopsPtr() const{
+    return &stops_;
 }

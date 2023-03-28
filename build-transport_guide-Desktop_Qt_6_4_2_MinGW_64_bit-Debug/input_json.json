@@ -1,36 +1,43 @@
 {
-  "base_requests": [
-    {      "type": "Bus",      "name": "114",      "stops": ["Sea railway station", "Riviera bridge"],      "is_roundtrip": false
+    "base_requests": [
+      {
+        "type": "Bus",
+        "name": "114",
+        "stops": ["Морской вокзал", "Ривьерский мост"],
+        "is_roundtrip": false
+      },
+      {
+        "type": "Stop",
+        "name": "Ривьерский мост",
+        "latitude": 43.587795,
+        "longitude": 39.716901,
+        "road_distances": {"Морской вокзал": 850}
+      },
+      {
+        "type": "Stop",
+        "name": "Морской вокзал",
+        "latitude": 43.581969,
+        "longitude": 39.719848,
+        "road_distances": {"Ривьерский мост": 850}
+      }
+    ],
+    "render_settings": {
+      "width": 200,
+      "height": 200,
+      "padding": 30,
+      "stop_radius": 5,
+      "line_width": 14,
+      "bus_label_font_size": 20,
+      "bus_label_offset": [7, 15],
+      "stop_label_font_size": 20,
+      "stop_label_offset": [7, -3],
+      "underlayer_color": [255,255,255,0.85],
+      "underlayer_width": 3,
+      "color_palette": ["green", [255,160,0],"red"]
     },
-    {
-      "type": "Stop",
-      "name": "Riviera bridge",
-      "latitude": 43.587795,
-      "longitude": 39.716901,
-      "road_distances": {"Sea railway station": 850}
-    },
-    {
-      "type": "Stop",
-      "name": "Sea railway station",
-      "latitude": 43.581969,
-      "longitude": 39.719848,
-      "road_distances": {"Riviera bridge": 850}
-    }
-	
-	{
-      "type": "Stop",
-      "name": "Stop1",
-      "latitude": 43.581969,
-      "longitude": 39.719848,
-      "road_distances": {"Riviera bridge": 850}
-    }
-  ],
-  "stat_requests": [
-   { "id": 1, "type": "Stop", "name": "Riviera bridge" },
-    { "id": 2, "type": "Bus", "name": "114" },
-	{ "id": 3, "type": "Bus", "name": "1"},
-	{ "id": 4, "type": "Stop", "name": "Stop"} ,
-	{ "id": 5, "type": "Stop", "name": "Stop1"} , 
-	{}
-  ]
-} 
+    "stat_requests": [
+      { "id": 1, "type": "Map" },
+      { "id": 2, "type": "Stop", "name": "Ривьерский мост" },
+      { "id": 3, "type": "Bus", "name": "114" }
+    ]
+  }
