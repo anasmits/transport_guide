@@ -17,7 +17,7 @@ std::optional<const std::set<RequestHandler::BusPtr>*>  RequestHandler::GetBuses
 }
 
 //    BusStat = std::unordered_map<std::string, double>
-std::optional<RequestHandler::BusStat> RequestHandler::GetBusStat(const std::string_view& bus_name) const{
+std::optional<RequestHandler::BusStat> RequestHandler::GetBusInfo(const std::string_view& bus_name) const{
     RequestHandler::BusStat answer;
     domain::Bus* bus_ptr = catalogue_ptr->FindBus(bus_name);
     if (bus_ptr != nullptr){
@@ -103,8 +103,8 @@ void RequestHandler::GetStopStat(const json::Dict& stat_requests, json::Dict& re
 void RequestHandler::GetBusStat(const json::Dict& stat_requests, json::Dict& request_answer) const{
     std::pair<int, std::string> bus_id_name = json_reader_ptr->ParseStatRequest(stat_requests);
     std::unordered_map<std::string, double> bus_stat_dict =
-            GetBusStat(bus_id_name.second).has_value() ?
-                GetBusStat(bus_id_name.second).value() : std::unordered_map<std::string, double>();
+            GetBusInfo(bus_id_name.second).has_value() ?
+                GetBusInfo(bus_id_name.second).value() : std::unordered_map<std::string, double>();
     if (!bus_stat_dict.empty()){
         request_answer = {{"request_id"s, bus_id_name.first}
                           , {"curvature"s,      bus_stat_dict.at("curvature"s)}

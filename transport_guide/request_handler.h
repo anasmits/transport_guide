@@ -24,7 +24,7 @@ public:
     RequestHandler();
 
     // Возвращает информацию о маршруте (запрос Bus)
-    std::optional<BusStat> GetBusStat(const std::string_view& bus_name) const;
+    std::optional<BusStat> GetBusInfo(const std::string_view& bus_name) const;
 
     // Возвращает маршруты, проходящие через остановку
     std::optional<const std::set<BusPtr>*> GetBusesByStop(const std::string& stop_name) const;
