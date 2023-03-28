@@ -86,7 +86,5 @@ int main()
         rhandler.LoadJson(input, output);
     }
     input.close();
-//    auto doc = renderer.RenderMap(catalogue.GetBusesPtr());
-//    doc.Render(std::cout);
     return 0;
 }

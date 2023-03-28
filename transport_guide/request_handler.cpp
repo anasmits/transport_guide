@@ -76,7 +76,8 @@ void RequestHandler::ExecuteStatRequest(const json::Array& stat_requests, std::o
         }
     }
 
-    json::Print(json::Document(stat_answer), output);
+    json_reader_ptr->SendOutput(stat_answer, output);
+
 }
 
 void RequestHandler::GetStopStat(const json::Dict& stat_requests, json::Dict& request_answer) const{

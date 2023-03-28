@@ -151,6 +151,9 @@ renderer::MapRendererSettings JSONReader::ParseRenderSettingsRequests(const Dict
     return settings;
 }
 
+void JSONReader::SendOutput(json::Array& stat_data, std::ostream& output) const{
+    json::Print(json::Document(stat_data), output);
+}
 
 } //namespace json_reader
 
