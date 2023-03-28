@@ -123,7 +123,7 @@ namespace renderer {
         MapRenderer() = default;
         MapRenderer(const MapRendererSettings& settings): settings_(std::move(settings)){}
 
-        void SetSettings(MapRendererSettings& settings);
+        void SetSettings(MapRendererSettings&& settings);
         const MapRendererSettings& GetSettings();
 
         svg::Document RenderMap(const std::deque<domain::Bus>* buses_ptr) const;

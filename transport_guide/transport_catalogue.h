@@ -25,6 +25,7 @@ public:
 
     TransportCatalogue(const TransportCatalogue&) = delete;
     TransportCatalogue operator=(const TransportCatalogue&) = delete;
+    TransportCatalogue(TransportCatalogue&&) = default;
 
     void AddStop(const Stop& stop);
     void AddStop(const Stop* stop);

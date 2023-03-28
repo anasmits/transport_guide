@@ -12,7 +12,7 @@ namespace renderer
     //------------- MapRenderer -----------------
     //-------------------------------------------
 
-    void MapRenderer::SetSettings(MapRendererSettings& settings){
+    void MapRenderer::SetSettings(MapRendererSettings&& settings){
         settings_ = settings;
     }
 

@@ -4,9 +4,11 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <string>
+#include <memory>
 
 #include "transport_catalogue.h"
 #include "map_renderer.h"
+#include "json_reader.h"
 #include "domain.h"
 #include "svg.h"
 
@@ -19,8 +21,7 @@ public:
     using BusPtr = domain::Bus*;
     using BusStat = std::unordered_map<std::string, double>;
 
-    // MapRenderer понадобится в следующей части итогового проекта
-    RequestHandler(const TransportCatalogue& db, const renderer::MapRenderer& renderer);
+    RequestHandler();
 
     // Возвращает информацию о маршруте (запрос Bus)
     std::optional<BusStat> GetBusStat(const std::string_view& bus_name) const;
@@ -31,11 +32,17 @@ public:
     // Этот метод будет нужен в следующей части итогового проекта
     svg::Document RenderMap() const;
 
+    void LoadJson(std::istream& input = std::cin, std::ostream& output = std::cout);
+    void ExecuteStatRequest(const json::Array& stat_requests, std::ostream& output)const;
+    void GetStopStat(const json::Dict& stat_requests, json::Dict& request_answer) const;
+    void GetBusStat(const json::Dict& stat_requests, json::Dict& request_answer) const;
+    void GetMapStat(const json::Dict& stat_request, json::Dict& request_answer) const;
 
 private:
-    // RequestHandler использует агрегацию объектов "Транспортный Справочник" и "Визуализатор Карты"
-    const TransportCatalogue& catalogue_;
-    const renderer::MapRenderer& renderer_;
+    // RequestHandler использует агрегацию объектов "Транспортный Справочник", "Визуализатор Карты" и "Парсер JSON"
+    std::unique_ptr<TransportCatalogue> catalogue_ptr;
+    std::unique_ptr<renderer::MapRenderer> renderer_ptr;
+    std::unique_ptr<json_reader::JSONReader> json_reader_ptr;
 };
 
 } // namespace request_handler

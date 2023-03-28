@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 
+#include "request_handler.h"
 #include "test_input_reader.h"
 #include "test_transport_catalogue.h"
 #include "test_stat_reader.h"
@@ -78,12 +79,11 @@ int main()
 //    TestAll();
 
     setlocale(LC_ALL,"ru");
-    transport_catalogue::catalogue::TransportCatalogue catalogue;
-    renderer::MapRenderer renderer;
+    request_handler::RequestHandler rhandler;
     std::ifstream input ("input_json.json"); //("test.json"); //
     std::ofstream output("output_1231.json");
     if(input.is_open() ){
-        json_reader::LoadJSON(catalogue, renderer, input, output);
+        rhandler.LoadJson(input, output);
     }
     input.close();
 //    auto doc = renderer.RenderMap(catalogue.GetBusesPtr());
