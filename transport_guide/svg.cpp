@@ -123,7 +123,7 @@ namespace svg {
         out << "</text>"sv;
 
     }
-//    <text x="250" y="180" font-family="Verdana" font-size="64" fill="blue" > Hello out there!</text>
+
 // ---------- Document ------------------
 
 // Добавляет в svg-документ объект-наследник svg::Object

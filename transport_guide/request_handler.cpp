@@ -1,4 +1,5 @@
 #include "request_handler.h"
+#include "json_builder.h"
 
 namespace request_handler{
 
@@ -51,7 +52,7 @@ void RequestHandler::LoadJson(std::istream& input, std::ostream& output){
         } else if (request.first == "stat_requests"){
             ExecuteStatRequest(request.second.AsArray(), output);
         } else if (request.first == "render_settings"){
-            renderer_ptr->SetSettings(json_reader_ptr->ParseRenderSettingsRequests(request.second.AsMap()));
+            renderer_ptr->SetSettings(json_reader_ptr->ParseRenderSettingsRequests(request.second.AsDict()));
         }
     }
 }
@@ -61,14 +62,14 @@ void RequestHandler::ExecuteStatRequest(const json::Array& stat_requests, std::o
     json::Array stat_answer;
 
     for (size_t i = 0; i < stat_requests.size(); ++i) {
-        if (!stat_requests[i].AsMap().empty()){
+        if (!stat_requests[i].AsDict().empty()){
             json::Dict request_answer;
-            if (stat_requests[i].AsMap().at("type"s).AsString() == "Stop"s){
-                GetStopStat(stat_requests[i].AsMap(), request_answer);
-            } else if (stat_requests[i].AsMap().at("type"s).AsString() == "Bus"s){
-                GetBusStat(stat_requests[i].AsMap(), request_answer);
-            } else if (stat_requests[i].AsMap().at("type"s).AsString() == "Map"s) {
-                GetMapStat(stat_requests[i].AsMap(), request_answer);
+            if (stat_requests[i].AsDict().at("type"s).AsString() == "Stop"s){
+                GetStopStat(stat_requests[i].AsDict(), request_answer);
+            } else if (stat_requests[i].AsDict().at("type"s).AsString() == "Bus"s){
+                GetBusStat(stat_requests[i].AsDict(), request_answer);
+            } else if (stat_requests[i].AsDict().at("type"s).AsString() == "Map"s) {
+                GetMapStat(stat_requests[i].AsDict(), request_answer);
             } else {
                 throw std::invalid_argument("stat_requests type is invalid"s);
             }
@@ -84,9 +85,19 @@ void RequestHandler::GetStopStat(const json::Dict& stat_requests, json::Dict& re
     std::pair<int, std::string> stop_id_name = json_reader_ptr->ParseStatRequest(stat_requests);
     const auto buses_ptr = GetBusesByStop(stop_id_name.second);
     if (buses_ptr == std::nullopt){
-        request_answer = {{"request_id"s, stop_id_name.first}, {"error_message"s, "not found"}};
+       // request_answer =  {{"request_id"s, stop_id_name.first}, {"error_message"s, "not found"}};
+        request_answer = json::Builder{}.StartDict()
+                                            .Key("request_id").Value(stop_id_name.first)
+                                            .Key("error_message").Value("not found")
+                                        .EndDict()
+                                        .Build().AsDict();
     } else if (buses_ptr.value() == nullptr){
-        request_answer = {{"request_id"s, stop_id_name.first}, {"buses"s, json::Array()}};
+//        request_answer = {{"request_id"s, stop_id_name.first}, {"buses"s, json::Array()}};
+        request_answer = json::Builder{}.StartDict()
+                                            .Key("request_id").Value(stop_id_name.first)
+                                            .Key("buses").Value(json::Array())
+                                        .EndDict()
+                                        .Build().AsDict();
     }else {
         json::Array buses;
         std::set<std::string> b;
@@ -96,7 +107,12 @@ void RequestHandler::GetStopStat(const json::Dict& stat_requests, json::Dict& re
         for(const auto& bus_name : b){
             buses.emplace_back(bus_name);
         }
-        request_answer = {{"request_id"s, stop_id_name.first}, {"buses"s, buses}};
+//        request_answer = {{"request_id"s, stop_id_name.first}, {"buses"s, buses}};
+        request_answer = json::Builder{}.StartDict()
+                                            .Key("request_id").Value(stop_id_name.first)
+                                            .Key("buses").Value(buses)
+                                        .EndDict()
+                                        .Build().AsDict();
     }
 }
 
@@ -106,29 +122,47 @@ void RequestHandler::GetBusStat(const json::Dict& stat_requests, json::Dict& req
             GetBusInfo(bus_id_name.second).has_value() ?
                 GetBusInfo(bus_id_name.second).value() : std::unordered_map<std::string, double>();
     if (!bus_stat_dict.empty()){
-        request_answer = {{"request_id"s, bus_id_name.first}
-                          , {"curvature"s,      bus_stat_dict.at("curvature"s)}
-                          , {"route_length"s,   bus_stat_dict.at("route_length"s)}
-                          , {"stop_count"s,     bus_stat_dict.at("stop_count"s)}
-                          , {"unique_stop_count"s,  bus_stat_dict.at("unique_stop_count"s)}
+//        request_answer = {{"request_id"s, bus_id_name.first}
+//                          , {"curvature"s,      bus_stat_dict.at("curvature"s)}
+//                          , {"route_length"s,   bus_stat_dict.at("route_length"s)}
+//                          , {"stop_count"s,     bus_stat_dict.at("stop_count"s)}
+//                          , {"unique_stop_count"s,  bus_stat_dict.at("unique_stop_count"s)}
+//        };
+        request_answer = json::Builder{}.StartDict()
+                                            .Key("request_id").Value(bus_id_name.first)
+                                            .Key("curvature").Value(bus_stat_dict.at("curvature"s))
+                                            .Key("route_length").Value(bus_stat_dict.at("route_length"s))
+                                            .Key("stop_count").Value(bus_stat_dict.at("stop_count"s))
+                                            .Key("unique_stop_count").Value(bus_stat_dict.at("unique_stop_count"s))
+                                        .EndDict()
+                                        .Build().AsDict();
 
-        };
     } else {
-        request_answer = {{"request_id"s, bus_id_name.first}, {"error_message"s, "not found"s}};
+//        request_answer = {{"request_id"s, bus_id_name.first}, {"error_message"s, "not found"s}};
+        request_answer = json::Builder{}.StartDict()
+                                            .Key("request_id").Value(bus_id_name.first)
+                                            .Key("error_message").Value("not found")
+                                        .EndDict()
+                                        .Build().AsDict();
     }
 }
 
 svg::Document RequestHandler::RenderMap() const{
     auto buses_ptr = catalogue_ptr->GetBusesPtr();
     return renderer_ptr->RenderMap(buses_ptr);
-};
+}
 
 void RequestHandler::GetMapStat(const json::Dict& stat_request, json::Dict& request_answer) const{
     int request_id = stat_request.at("id"s).AsInt();
     svg::Document document = RenderMap();
     std::ostringstream out_strstm;
     document.Render(out_strstm);
-    request_answer = {{"request_id"s, request_id}, {"map"s, out_strstm.str() }};
+//    request_answer = {{"request_id"s, request_id}, {"map"s, out_strstm.str() }};
+    request_answer = json::Builder{}.StartDict()
+                                        .Key("request_id").Value(request_id)
+                                        .Key("map").Value(out_strstm.str())
+                                    .EndDict()
+                                    .Build().AsDict();
 }
 
 } // namespace request_handler

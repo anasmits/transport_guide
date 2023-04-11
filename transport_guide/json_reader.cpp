@@ -6,14 +6,14 @@ using namespace std::literals;
 
 Dict JSONReader::LoadInput(std::istream& input){
     Document document = Load(input);
-    return document.GetRoot().AsMap();
+    return document.GetRoot().AsDict();
 }
 
 //----------- BaseRequests ----------
 
 void JSONReader::FillTransportCatalogue (const Node& base_requests){
     for(const auto& dict : base_requests.AsArray()){
-        auto request = dict.AsMap();
+        auto request = dict.AsDict();
         if (request.at("type"s) == "Stop"s){
             ParseBaseStopRequest(request);
         } else {
@@ -27,7 +27,7 @@ void JSONReader::ParseBaseStopRequest(Dict& stop_request){
     std::string stop_name_from = stop_request.at("name"s).AsString();
     double latitude = stop_request.at("latitude"s).AsDouble();
     double longitude = stop_request.at("longitude"s).AsDouble();
-    Dict road_distances = stop_request.at("road_distances"s).AsMap();
+    Dict road_distances = stop_request.at("road_distances"s).AsDict();
 
     domain::Stop* stop_from = catalogue.FindStop(stop_name_from);
     if (stop_from == nullptr){

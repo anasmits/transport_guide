@@ -8,9 +8,7 @@ namespace renderer
     }
 
 
-    //-------------------------------------------
     //------------- MapRenderer -----------------
-    //-------------------------------------------
 
     void MapRenderer::SetSettings(MapRendererSettings&& settings){
         settings_ = settings;
@@ -48,7 +46,7 @@ namespace renderer
 
         RenderRoutes(document, buses_sorted_ptr, projector);
         RenderRoutesNames(document, buses_sorted_ptr, projector);
-        RenderStopsSimbols(document, buses_sorted_ptr, projector);
+        RenderStopsSymbols(document, buses_sorted_ptr, projector);
         RenderStopsNames(document, buses_sorted_ptr, projector);
         return document;
     }
@@ -148,7 +146,7 @@ namespace renderer
         }
     }
 
-    void MapRenderer::RenderStopsSimbols(svg::Document& document,
+    void MapRenderer::RenderStopsSymbols(svg::Document& document,
             const std::vector<const domain::Bus*>& buses_sorted_ptr,
             const SphereProjector& projector) const {
 

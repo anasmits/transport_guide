@@ -78,13 +78,17 @@ int main()
 
 //    TestAll();
 
-    setlocale(LC_ALL,"ru");
+//    setlocale(LC_ALL,"ru");
+//    request_handler::RequestHandler rhandler;
+//    std::ifstream input  ("1.json");//("test.json"); //
+//    std::ofstream output("1_output.json");
+//    if(input.is_open() ){
+//        rhandler.LoadJson(input, output);
+//    }
+//    input.close();
+//    return 0;
+
     request_handler::RequestHandler rhandler;
-    std::ifstream input ("input_json.json"); //("test.json"); //
-    std::ofstream output("output_1231.json");
-    if(input.is_open() ){
-        rhandler.LoadJson(input, output);
-    }
-    input.close();
+    rhandler.LoadJson(cin, cout);
     return 0;
 }

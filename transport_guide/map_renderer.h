@@ -36,10 +36,6 @@ namespace renderer {
     inline const double EPSILON = 1e-6;
     bool IsZero(double value);
 
-//    /*
-//     * При вычислении коэффициентов масштабирования должны учитываться только те остановки, которые входят в какой-либо маршрут.
-//     */
-
     class SphereProjector {
     public:
         // points_begin и points_end задают начало и конец интервала элементов geo::Coordinates
@@ -107,15 +103,6 @@ namespace renderer {
         double zoom_coeff_ = 0;
     };
 
-/*
-*   1. Хранит настройки для вывода маршрутов
-    2. Устанавливает / высылает настройки маршрутов
-    3. Для составления карты общается с request_handler, а не с транспортным справочником
-    4. Хранит настройки для линий svg
-    5. Рисует карту
-
-    1. Получает настройки от
-*/
 
     class MapRenderer{
     public:
@@ -138,7 +125,7 @@ namespace renderer {
                 const std::vector<const domain::Bus*>& buses_sorted_ptr,
                 const SphereProjector& projector) const;
 
-        void RenderStopsSimbols(svg::Document& document,
+        void RenderStopsSymbols(svg::Document& document,
                 const std::vector<const domain::Bus*>& buses_sorted_ptr,
                 const SphereProjector& projector) const;
 
