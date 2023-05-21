@@ -150,8 +150,8 @@ namespace json {
         }
 
         //----------KeyItemContext------------
-        ValueItemContextAfterKey KeyItemContext::Value(const Node::Value &&value){
-            return ValueItemContextAfterKey(builder_ref_.Value(value));
+        Builder& KeyItemContext::Value(const Node::Value &&value){
+            return builder_ref_.Value(value);
         }
         DictItemContext KeyItemContext::StartDict(){
             return builder_ref_.StartDict();
@@ -160,32 +160,10 @@ namespace json {
             return builder_ref_.StartArray();
         }
 
-        //----------ValueItemContextAfterArray------------
-        ValueItemContextAfterArray ValueItemContextAfterArray::Value(Node::Value value){
-            return ValueItemContextAfterArray(builder_ref_.Value(value));
-        }
-        DictItemContext ValueItemContextAfterArray::StartDict(){
-            return builder_ref_.StartDict();
-        }
-        ArrayItemContext ValueItemContextAfterArray::StartArray(){
-            return builder_ref_.StartArray();
-        }
-        Builder& ValueItemContextAfterArray::EndArray(){
-            return builder_ref_.EndArray();
-        }
-
-        //----------ValueItemContextAfterKey-----------
-        KeyItemContext ValueItemContextAfterKey::Key(std::string s){
-            return KeyItemContext(builder_ref_.Key(s));
-        }
-
-        Builder& ValueItemContextAfterKey::EndDict(){
-            return builder_ref_.EndDict();
-        }
-
         //----------ArrayItemContext------------
-        ValueItemContextAfterArray ArrayItemContext::Value(Node::Value value){
-            return ValueItemContextAfterArray(builder_ref_.Value(value));
+
+        Builder& ArrayItemContext::Value(Node::Value value){
+            return builder_ref_.Value(value);
         }
 
         DictItemContext ArrayItemContext::StartDict(){

@@ -114,7 +114,7 @@ namespace renderer
             document.Add(route_name_underlayer);
             document.Add(route_name);
 
-            if((bus_ptr->circle_rout == false) && (bus_ptr->stops[(bus_ptr->stops.size())/2] != stop1)){
+            if((bus_ptr->is_roundtrip == false) && (bus_ptr->stops[(bus_ptr->stops.size()) / 2] != stop1)){
                 auto stop2 = bus_ptr->stops[bus_ptr->stops.size()/2];
                 svg::Text route_name_underlayer;
                 route_name_underlayer

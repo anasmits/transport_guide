@@ -10,8 +10,6 @@ namespace json {
     class BaseItemContext;
     class DictItemContext;
     class ArrayItemContext;
-    class ValueItemContextAfterArray;
-    class ValueItemContextAfterKey;
     class KeyItemContext;
 
     using ItemContextType = std::variant<std::monostate, BaseItemContext, ArrayItemContext, DictItemContext>;
@@ -60,7 +58,7 @@ namespace json {
     class KeyItemContext : public BaseItemContext {
     public:
         explicit KeyItemContext(Builder& builder_ref) : BaseItemContext(builder_ref){};
-        ValueItemContextAfterKey Value(const Node::Value &&value);
+        Builder& Value(const Node::Value &&value);
         DictItemContext StartDict();
         ArrayItemContext StartArray();
     };
@@ -68,24 +66,7 @@ namespace json {
     class ArrayItemContext : public BaseItemContext {
     public:
         explicit  ArrayItemContext(Builder& br) : BaseItemContext(br){};
-        ValueItemContextAfterArray Value(Node::Value value); //
-        DictItemContext StartDict();
-        ArrayItemContext StartArray();
-        Builder& EndArray();
-    };
-
-    class ValueItemContextAfterKey : public BaseItemContext {
-    public:
-        explicit ValueItemContextAfterKey(Builder& builder_ref) : BaseItemContext(builder_ref){};
-        KeyItemContext Key(std::string s);
-        Builder& EndDict();
-    };
-
-    class ValueItemContextAfterArray : public BaseItemContext {
-    public:
-        explicit ValueItemContextAfterArray(Builder& builder_ref): BaseItemContext(builder_ref){};
-
-        ValueItemContextAfterArray Value(Node::Value value); //
+        Builder& Value(Node::Value value);
         DictItemContext StartDict();
         ArrayItemContext StartArray();
         Builder& EndArray();

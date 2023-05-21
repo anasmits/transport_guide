@@ -20,21 +20,25 @@ namespace domain
 
     struct Stop{
         Stop() = default;
-        Stop(std::string name, double lat, double lng)
+        Stop(std::string name, double lat, double lng, size_t number)
             : name(std::move(name))
-            , coordinates({std::move(lat), std::move(lng)}){};
-        Stop(std::string name, geo::Coordinates coordinates)
+            , coordinates({std::move(lat), std::move(lng)})
+            , number(number){};
+        Stop(std::string name, geo::Coordinates coordinates, size_t number)
             : name(std::move(name))
-            , coordinates(std::move(coordinates)){};
+            , coordinates(std::move(coordinates))
+            , number(number){};
 
         bool operator==(const Stop& other) const{
             return (name == other.name)
                     && (std::abs(coordinates.lat - other.coordinates.lat) < TOL)
-                    && (std::abs(coordinates.lng - other.coordinates.lng) < TOL);
+                    && (std::abs(coordinates.lng - other.coordinates.lng) < TOL)
+                    && number == other.number;
         };
 
         std::string name = ""s;
         geo::Coordinates coordinates = {0, 0};
+        size_t number = 0u;
     };
 
     using PairStopPtr = std::pair<Stop*, Stop*>;
@@ -60,12 +64,12 @@ namespace domain
         Bus(){
             name = {};
             stops = {};
-            circle_rout = false;
+            is_roundtrip = false;
         };
         Bus(std::string name, std::vector<Stop*> stops, bool rout_type)
             : name(std::move(name))
             , stops(std::move(stops))
-            , circle_rout(std::move(rout_type)){};
+            , is_roundtrip(std::move(rout_type)){};
 
         bool operator<(const Bus& other){
             return name < other.name;
@@ -76,7 +80,7 @@ namespace domain
 
         std::string name;
         std::vector<Stop*> stops;
-        bool circle_rout;
+        bool is_roundtrip;
     };
 
     using TupleDistance = std::tuple<double, int, double>;
@@ -102,10 +106,10 @@ namespace domain
     public:
         StopPtr() = default;
         explicit StopPtr(std::string name){
-            raw_ptr_ = new Stop(name, {});
+            raw_ptr_ = new Stop(name, {}, 0u);
         }
         explicit StopPtr(std::string name, geo::Coordinates coordinates){
-            raw_ptr_ = new Stop(name, coordinates);
+            raw_ptr_ = new Stop(name, coordinates, 0u);
         }
         explicit StopPtr(Stop* raw_ptr) noexcept {
             raw_ptr_ = raw_ptr;
@@ -152,6 +156,8 @@ namespace domain
     private:
         Stop* raw_ptr_ = nullptr;
     };
+
+
 
 } // namespace domain
 

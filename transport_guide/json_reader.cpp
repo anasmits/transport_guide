@@ -11,63 +11,55 @@ Dict JSONReader::LoadInput(std::istream& input){
 
 //----------- BaseRequests ----------
 
-void JSONReader::FillTransportCatalogue (const Node& base_requests){
-    for(const auto& dict : base_requests.AsArray()){
-        auto request = dict.AsDict();
-        if (request.at("type"s) == "Stop"s){
-            ParseBaseStopRequest(request);
-        } else {
-            ParseBaseBusRequest(request);
-        }
-    }
-    catalogue.CalculateRouteAndCurvature();
-}
-
-void JSONReader::ParseBaseStopRequest(Dict& stop_request){
+StopRequest JSONReader::ParseBaseStopRequest (const Dict& stop_request) const {
     std::string stop_name_from = stop_request.at("name"s).AsString();
     double latitude = stop_request.at("latitude"s).AsDouble();
     double longitude = stop_request.at("longitude"s).AsDouble();
     Dict road_distances = stop_request.at("road_distances"s).AsDict();
+    return {stop_name_from, latitude, longitude, road_distances};
+}
 
-    domain::Stop* stop_from = catalogue.FindStop(stop_name_from);
+void JSONReader::ExecuteBaseStopRequest(const StopRequest&& stop_request){
+    domain::Stop* stop_from = catalogue.FindStop(stop_request.name);
     if (stop_from == nullptr){
-        auto stop = std::make_unique<domain::Stop>(stop_name_from, latitude, longitude);
+        auto stop = std::make_unique<domain::Stop>(stop_request.name, stop_request.lat, stop_request.lng, catalogue.GetStopsCount());
         catalogue.AddStop(stop.get());
     } else {
-        stop_from->coordinates = {latitude, longitude};
+        stop_from->coordinates = {stop_request.lat, stop_request.lng};
     }
 
-    if (!road_distances.empty()){
-        for(const auto& [stop_name_to, distance] : road_distances){
+    if (!stop_request.road_distances.empty()){
+        for(const auto& [stop_name_to, distance] : stop_request.road_distances){
             if(catalogue.FindStop(stop_name_to) == nullptr){
-                geo::Coordinates coordinates = { .0, .0};
-                auto stop = std::make_unique<domain::Stop>(stop_name_to, coordinates);
+                auto stop = std::make_unique<domain::Stop>(stop_name_to, geo::Coordinates({ .0, .0}), catalogue.GetStopsCount());
                 catalogue.AddStop(stop.get());
             }
-            catalogue.SetDistanceBetweenStops(catalogue.FindStop(stop_name_from), catalogue.FindStop(stop_name_to), distance.AsInt());
+            catalogue.SetDistanceBetweenStops(catalogue.FindStop(stop_request.name), catalogue.FindStop(stop_name_to), distance.AsInt());
         }
     }
 }
 
-void JSONReader::ParseBaseBusRequest(Dict& bus_request){
+BusRequest JSONReader::ParseBaseBusRequest(const Dict& bus_request) const {
     std::string bus_name = bus_request.at("name"s).AsString();
     Array stops = bus_request.at("stops"s).AsArray();
     bool is_roundtrip = bus_request.at("is_roundtrip"s).AsBool();
+    return {bus_name, stops, is_roundtrip};
+}
 
-    if (is_roundtrip == false){
-        size_t i = stops.size();
-        stops.resize(stops.size()*2-1);
-        for(auto it = next(stops.rbegin(), i); it < stops.rend(); ++it, ++i){
-            stops[i] = (*it);
+void JSONReader::ExecuteBaseBusRequest(BusRequest&& bus_request){
+    if (bus_request.is_roundtrip == false){
+        size_t i = bus_request.stops.size();
+        bus_request.stops.resize(bus_request.stops.size()*2-1);
+        for(auto it = next(bus_request.stops.rbegin(), i); it < bus_request.stops.rend(); ++it, ++i){
+            bus_request.stops[i] = (*it);
         }
     }
 
-    domain::Bus bus(bus_name, {}, is_roundtrip);
-    for(const auto& stop_name : stops){
+    domain::Bus bus(bus_request.name, {}, bus_request.is_roundtrip);
+    for(const auto& stop_name : bus_request.stops){
         auto stop = catalogue.FindStop(stop_name.AsString());
         if (stop == nullptr){
-            geo::Coordinates coordinates = { .0, .0};
-            auto stop_to_add = std::make_unique<domain::Stop>(stop_name.AsString(), coordinates);
+            auto stop_to_add = std::make_unique<domain::Stop>(stop_name.AsString(), geo::Coordinates({ .0, .0}), catalogue.GetStopsCount());
             catalogue.AddStop(stop_to_add.get());
             stop = catalogue.FindStop(stop_name.AsString());
         }
@@ -76,6 +68,19 @@ void JSONReader::ParseBaseBusRequest(Dict& bus_request){
 
     catalogue.AddBus(bus);
 }
+
+void JSONReader::FillTransportCatalogue (const Node& base_requests){
+    for(const auto& dict : base_requests.AsArray()){
+        auto request = dict.AsDict();
+        if (request.at("type"s) == "Stop"s){
+            ExecuteBaseStopRequest(ParseBaseStopRequest(request));
+        } else {
+            ExecuteBaseBusRequest(ParseBaseBusRequest(request));
+        }
+    }
+    catalogue.CalculateRouteAndCurvature();
+}
+
 
 //----------- StatRequests ----------
 
@@ -154,6 +159,16 @@ renderer::MapRendererSettings JSONReader::ParseRenderSettingsRequests(const Dict
 void JSONReader::SendOutput(json::Array& stat_data, std::ostream& output) const{
     json::Print(json::Document(stat_data), output);
 }
+
+//-------------------------ParseRoutingSettings-----------------------------------
+void JSONReader::ParseRoutingSettingsRequest(const Dict& rout_settings){
+    double bus_velocity  = rout_settings.at("bus_velocity"s).AsDouble();
+    size_t bus_wait_time = static_cast<size_t>(rout_settings.at("bus_wait_time"s).AsInt());
+    catalogue.SetBusWaitTime(bus_wait_time);
+    catalogue.SetBusVelocity(bus_velocity);
+}
+
+
 
 } //namespace json_reader
 

@@ -54,88 +54,78 @@ build CMakeFiles/transport_guide.dir/main.cpp.obj: CXX_COMPILER__transport_guide
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
 build CMakeFiles/transport_guide.dir/transport_catalogue.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/transport_catalogue.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\transport_catalogue.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
 build CMakeFiles/transport_guide.dir/input_reader.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/input_reader.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\input_reader.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
 build CMakeFiles/transport_guide.dir/domain.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/domain.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\domain.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
 build CMakeFiles/transport_guide.dir/stat_reader.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/stat_reader.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\stat_reader.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
 build CMakeFiles/transport_guide.dir/geo.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/geo.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\geo.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
 build CMakeFiles/transport_guide.dir/json.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/json.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\json.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
 build CMakeFiles/transport_guide.dir/json_reader.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/json_reader.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\json_reader.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
+
+build CMakeFiles/transport_guide.dir/json_builder.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/json_builder.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\json_builder.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
 
 build CMakeFiles/transport_guide.dir/svg.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/svg.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\svg.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
-build CMakeFiles/transport_guide.dir/map_render.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/map_render.cpp || cmake_object_order_depends_target_transport_guide
-  DEP_FILE = CMakeFiles\transport_guide.dir\map_render.cpp.obj.d
+build CMakeFiles/transport_guide.dir/map_renderer.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/map_renderer.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\map_renderer.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
 
 build CMakeFiles/transport_guide.dir/request_handler.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/request_handler.cpp || cmake_object_order_depends_target_transport_guide
   DEP_FILE = CMakeFiles\transport_guide.dir\request_handler.cpp.obj.d
   FLAGS = -g -std=gnu++17
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
-  TARGET_PDB = transport_guide.pdb
+
+build CMakeFiles/transport_guide.dir/transport_router.cpp.obj: CXX_COMPILER__transport_guide_Debug D$:/NASTYA/yandex_transport_guide/transport_guide/transport_guide/transport_router.cpp || cmake_object_order_depends_target_transport_guide
+  DEP_FILE = CMakeFiles\transport_guide.dir\transport_router.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\transport_guide.dir
+  OBJECT_FILE_DIR = CMakeFiles\transport_guide.dir
 
 
 # =============================================================================
@@ -145,16 +135,15 @@ build CMakeFiles/transport_guide.dir/request_handler.cpp.obj: CXX_COMPILER__tran
 #############################################
 # Link the executable transport_guide.exe
 
-build transport_guide.exe: CXX_EXECUTABLE_LINKER__transport_guide_Debug CMakeFiles/transport_guide.dir/main.cpp.obj CMakeFiles/transport_guide.dir/transport_catalogue.cpp.obj CMakeFiles/transport_guide.dir/input_reader.cpp.obj CMakeFiles/transport_guide.dir/domain.cpp.obj CMakeFiles/transport_guide.dir/stat_reader.cpp.obj CMakeFiles/transport_guide.dir/geo.cpp.obj CMakeFiles/transport_guide.dir/json.cpp.obj CMakeFiles/transport_guide.dir/json_reader.cpp.obj CMakeFiles/transport_guide.dir/svg.cpp.obj CMakeFiles/transport_guide.dir/map_render.cpp.obj CMakeFiles/transport_guide.dir/request_handler.cpp.obj
+build transport_guide.exe: CXX_EXECUTABLE_LINKER__transport_guide_Debug CMakeFiles/transport_guide.dir/main.cpp.obj CMakeFiles/transport_guide.dir/transport_catalogue.cpp.obj CMakeFiles/transport_guide.dir/input_reader.cpp.obj CMakeFiles/transport_guide.dir/domain.cpp.obj CMakeFiles/transport_guide.dir/stat_reader.cpp.obj CMakeFiles/transport_guide.dir/geo.cpp.obj CMakeFiles/transport_guide.dir/json.cpp.obj CMakeFiles/transport_guide.dir/json_reader.cpp.obj CMakeFiles/transport_guide.dir/json_builder.cpp.obj CMakeFiles/transport_guide.dir/svg.cpp.obj CMakeFiles/transport_guide.dir/map_renderer.cpp.obj CMakeFiles/transport_guide.dir/request_handler.cpp.obj CMakeFiles/transport_guide.dir/transport_router.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\transport_guide.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\transport_guide.dir\
   TARGET_FILE = transport_guide.exe
   TARGET_IMPLIB = libtransport_guide.dll.a
-  TARGET_PDB = transport_guide.pdb
+  TARGET_PDB = transport_guide.exe.dbg
 
 
 #############################################
@@ -243,14 +232,14 @@ build all: phony transport_guide.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt CMakeCache.txt CMakeFiles/3.22.3/CMakeCXXCompiler.cmake CMakeFiles/3.22.3/CMakeRCCompiler.cmake CMakeFiles/3.22.3/CMakeSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCXXCompiler.cmake.in F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCXXInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCompilerIdDetection.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCXXCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCompileFeatures.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCompilerABI.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCompilerId.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineRCCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeFindBinUtils.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeGenericSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeParseImplicitIncludeInfo.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeParseImplicitLinkInfo.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeParseLibraryArchitecture.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeRCCompiler.cmake.in F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeRCInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystem.cmake.in F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeTestCXXCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeTestCompilerCommon.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeTestRCCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/ADSP-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/ARMCC-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/ARMClang-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/AppleClang-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Borland-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Clang-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Clang-DetermineCompilerInternal.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Cray-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Embarcadero-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Fujitsu-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GHS-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU-FindBinUtils.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/HP-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/IAR-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Intel-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/MSVC-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/NVHPC-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/NVIDIA-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/PGI-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/PathScale-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/SCO-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/TI-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Watcom-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/XL-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Internal/FeatureTesting.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-Determine-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU-CXX-ABI.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-windres.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/WindowsPaths.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt CMakeCache.txt CMakeFiles/3.22.3/CMakeCXXCompiler.cmake CMakeFiles/3.22.3/CMakeRCCompiler.cmake CMakeFiles/3.22.3/CMakeSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCXXInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeGenericSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeRCInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU-CXX-ABI.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-windres.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/WindowsPaths.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt CMakeCache.txt CMakeFiles/3.22.3/CMakeCXXCompiler.cmake CMakeFiles/3.22.3/CMakeRCCompiler.cmake CMakeFiles/3.22.3/CMakeSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCXXCompiler.cmake.in F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCXXInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCompilerIdDetection.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCXXCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCompileFeatures.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCompilerABI.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineCompilerId.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineRCCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeDetermineSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeFindBinUtils.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeGenericSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeParseImplicitIncludeInfo.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeParseImplicitLinkInfo.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeParseLibraryArchitecture.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeRCCompiler.cmake.in F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeRCInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystem.cmake.in F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeTestCXXCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeTestCompilerCommon.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeTestRCCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/ADSP-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/ARMCC-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/ARMClang-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/AppleClang-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Borland-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Clang-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Clang-DetermineCompilerInternal.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Cray-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Embarcadero-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Fujitsu-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GHS-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU-FindBinUtils.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/HP-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/IAR-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Intel-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/MSVC-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/NVHPC-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/NVIDIA-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/PGI-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/PathScale-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/SCO-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/TI-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/Watcom-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/XL-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Internal/FeatureTesting.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-Determine-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU-CXX-ABI.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-windres.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/WindowsPaths.cmake: phony
+build ../CMakeLists.txt CMakeCache.txt CMakeFiles/3.22.3/CMakeCXXCompiler.cmake CMakeFiles/3.22.3/CMakeRCCompiler.cmake CMakeFiles/3.22.3/CMakeSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCXXInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeGenericSystem.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeRCInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Compiler/GNU.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU-CXX-ABI.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU-CXX.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-GNU.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows-windres.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/Windows.cmake F$:/Soft/CLion$ 2022.1.3/bin/cmake/win/share/cmake-3.22/Modules/Platform/WindowsPaths.cmake: phony
 
 
 #############################################

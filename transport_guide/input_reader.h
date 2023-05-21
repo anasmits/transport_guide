@@ -18,14 +18,14 @@ using namespace catalogue;
 std::string ReadLine(std::istream& input);
 int ReadLineWithNumber(std::istream& input);
 
-void ParseStopQueryPtr(TransportCatalogue& catalogue, std::string& line);
-void ParseBusQueryPtr(TransportCatalogue& catalogue, std::string& line);
-void ParseInputQueryPtr(TransportCatalogue& catalogue, std::istream& input);
-std::vector<std::string> ParseWithDelimeter(std::string& line, std::string delim);
-
-namespace detail{
-    void LoadDataQuery(TransportCatalogue& catalogue, std::istream& input);
-} // namespace detail
+//void ParseStopQueryPtr(TransportCatalogue catalogue, std::string& line);
+//void ParseBusQueryPtr(TransportCatalogue& catalogue, std::string& line);
+//void ParseInputQueryPtr(TransportCatalogue& catalogue, std::istream& input);
+//std::vector<std::string> ParseWithDelimeter(std::string& line, std::string delim);
+//
+//namespace detail{
+//    void LoadDataQuery(TransportCatalogue& catalogue, std::istream& input);
+//} // namespace detail
 } // namespace input_reader
 } // namespace transport_catalogue
 

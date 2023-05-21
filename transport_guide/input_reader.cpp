@@ -34,103 +34,103 @@ std::vector<std::string> ParseWithDelimeter(std::string& line, std::string delim
     }
     return result;
 }
-
-// with pointer
-void ParseStopQueryPtr(TransportCatalogue& catalogue, std::string& line){
-    using namespace catalogue::detail;
-    auto name_begin = line.find_first_not_of(' ', line.find_first_of('p')+1);
-    auto name_end = line.find_first_of(':', name_begin);
-    auto stop_name_from = line.substr(name_begin, name_end - name_begin);
-
-    line = line.substr(name_end+1);
-    std::vector<std::string> parsed_line = ParseWithDelimeter(line, ", "s);
-
-    Stop* stop_from = catalogue.FindStop(stop_name_from);
-    if (stop_from == nullptr){ //если остановки в каталоге нет, то создаём
-        StopPtr stop = StopPtr(stop_name_from);
-        stop.Get()->coordinates = {std::stod(parsed_line[0]), std::stod(parsed_line[1])};
-        catalogue.AddStop(stop.Get());
-    } else { // если есть, то добаляем координаты
-        stop_from->coordinates = {std::stod(parsed_line[0]), std::stod(parsed_line[1])};
-    }
-
-    if(parsed_line.size() > 2){
-        for(size_t i = 2; i < parsed_line.size(); ++i){
-            int distance = std::stoi(parsed_line[i].substr(0, parsed_line[i].find_first_of('m')));
-
-            parsed_line[i] = parsed_line[i].substr(parsed_line[i].find_first_of('m')+1);
-
-            auto begin = parsed_line[i].find_first_not_of(' ', parsed_line[i].find_first_of("to"s) +2);
-            auto end = parsed_line[i].find_last_not_of(' ')+1;
-            std::string stop_name_to = parsed_line[i].substr(begin, end - begin);
-
-            Stop* stop_to= catalogue.FindStop(stop_name_to);
-            if(stop_to == nullptr){
-                StopPtr stop_empty = StopPtr(stop_name_to);
-                catalogue.AddStop(stop_empty.Get());
-            }
-            catalogue.SetDistanceBetweenStops(catalogue.FindStop(stop_name_from), catalogue.FindStop(stop_name_to), distance);
-        }
-    }
-}
-
-// with pointer
-void ParseBusQueryPtr(TransportCatalogue& catalogue, std::string& line){
-    using namespace std::literals;
-    using namespace catalogue::detail;
-
-    auto name_begin = line.find_first_not_of(' ', line.find_first_of('s')+1);
-    auto name_end = line.find_first_of(':');
-    auto bus_name = line.substr(name_begin, name_end - name_begin);
-
-    line = line.substr(name_end+1);
-    bool bus_circular_type = line.find(">"s) != line.npos ? true : false;
-    std::string delim = bus_circular_type ? " > "s : " - "s;
-
-    auto stops = ParseWithDelimeter(line, delim);
-
-    if(bus_circular_type==false){
-        size_t i = stops.size();
-        stops.resize(stops.size()*2-1);
-        for(auto it = next(stops.rbegin(), i); it < stops.rend(); ++it, ++i){
-            stops[i] = (*it);
-        }
-    }
-
-    Bus bus(bus_name, {}, bus_circular_type);
-    for(const auto& stop_name : stops){
-        Stop* stop = catalogue.FindStop(stop_name);
-        if(stop == nullptr){
-            StopPtr stop_to_add = StopPtr(stop_name);
-            catalogue.AddStop(stop_to_add.Get());
-            stop = catalogue.FindStop(stop_name);
-        }
-        bus.stops.push_back(stop);
-    }
-
-    catalogue.AddBus(bus);
-}
-
-// function with streaming parsing - if stop doesn't exist, create it with smart pointer
-void ParseInputQueryPtr(TransportCatalogue& catalogue, std::istream& input){
-    using namespace std::literals;
-    int number = ReadLineWithNumber(input);
-    for(int i = 0; i < number; ++i){
-        std::string line = ReadLine(input);
-        if(line[line.find_first_not_of(' ')] == 'S'){
-            ParseStopQueryPtr(catalogue, line);
-        } else{
-            ParseBusQueryPtr(catalogue, line);
-        }
-    }
-    catalogue.CalculateRouteAndCurvature();
-}
-
-namespace detail{
-void LoadDataQuery(TransportCatalogue& catalogue, std::istream& input = std::cin){
-    ParseInputQueryPtr(catalogue, input);
-}
-} // namespace detail
+//
+//// with pointer
+//void ParseStopQueryPtr(TransportCatalogue& catalogue, std::string& line){
+//    using namespace catalogue::detail;
+//    auto name_begin = line.find_first_not_of(' ', line.find_first_of('p')+1);
+//    auto name_end = line.find_first_of(':', name_begin);
+//    auto stop_name_from = line.substr(name_begin, name_end - name_begin);
+//
+//    line = line.substr(name_end+1);
+//    std::vector<std::string> parsed_line = ParseWithDelimeter(line, ", "s);
+//
+//    Stop* stop_from = catalogue.FindStop(stop_name_from);
+//    if (stop_from == nullptr){ //если остановки в каталоге нет, то создаём
+//        StopPtr stop = StopPtr(stop_name_from);
+//        stop.Get()->coordinates = {std::stod(parsed_line[0]), std::stod(parsed_line[1])};
+//        catalogue.AddStop(stop.Get());
+//    } else { // если есть, то добаляем координаты
+//        stop_from->coordinates = {std::stod(parsed_line[0]), std::stod(parsed_line[1])};
+//    }
+//
+//    if(parsed_line.size() > 2){
+//        for(size_t i = 2; i < parsed_line.size(); ++i){
+//            int distance = std::stoi(parsed_line[i].substr(0, parsed_line[i].find_first_of('m')));
+//
+//            parsed_line[i] = parsed_line[i].substr(parsed_line[i].find_first_of('m')+1);
+//
+//            auto begin = parsed_line[i].find_first_not_of(' ', parsed_line[i].find_first_of("to"s) +2);
+//            auto end = parsed_line[i].find_last_not_of(' ')+1;
+//            std::string stop_name_to = parsed_line[i].substr(begin, end - begin);
+//
+//            Stop* stop_to= catalogue.FindStop(stop_name_to);
+//            if(stop_to == nullptr){
+//                StopPtr stop_empty = StopPtr(stop_name_to);
+//                catalogue.AddStop(stop_empty.Get());
+//            }
+//            catalogue.SetDistanceBetweenStops(catalogue.FindStop(stop_name_from), catalogue.FindStop(stop_name_to), distance);
+//        }
+//    }
+//}
+//
+//// with pointer
+//void ParseBusQueryPtr(TransportCatalogue& catalogue, std::string& line){
+//    using namespace std::literals;
+//    using namespace catalogue::detail;
+//
+//    auto name_begin = line.find_first_not_of(' ', line.find_first_of('s')+1);
+//    auto name_end = line.find_first_of(':');
+//    auto bus_name = line.substr(name_begin, name_end - name_begin);
+//
+//    line = line.substr(name_end+1);
+//    bool bus_circular_type = line.find(">"s) != line.npos ? true : false;
+//    std::string delim = bus_circular_type ? " > "s : " - "s;
+//
+//    auto stops = ParseWithDelimeter(line, delim);
+//
+//    if(bus_circular_type==false){
+//        size_t i = stops.size();
+//        stops.resize(stops.size()*2-1);
+//        for(auto it = next(stops.rbegin(), i); it < stops.rend(); ++it, ++i){
+//            stops[i] = (*it);
+//        }
+//    }
+//
+//    Bus bus(bus_name, {}, bus_circular_type);
+//    for(const auto& stop_name : stops){
+//        Stop* stop = catalogue.FindStop(stop_name);
+//        if(stop == nullptr){
+//            StopPtr stop_to_add = StopPtr(stop_name);
+//            catalogue.AddStop(stop_to_add.Get());
+//            stop = catalogue.FindStop(stop_name);
+//        }
+//        bus.stops.push_back(stop);
+//    }
+//
+//    catalogue.AddBus(bus);
+//}
+//
+//// function with streaming parsing - if stop doesn't exist, create it with smart pointer
+//void ParseInputQueryPtr(TransportCatalogue& catalogue, std::istream& input){
+//    using namespace std::literals;
+//    int number = ReadLineWithNumber(input);
+//    for(int i = 0; i < number; ++i){
+//        std::string line = ReadLine(input);
+//        if(line[line.find_first_not_of(' ')] == 'S'){
+//            ParseStopQueryPtr(catalogue, line);
+//        } else{
+//            ParseBusQueryPtr(catalogue, line);
+//        }
+//    }
+//    catalogue.CalculateRouteAndCurvature();
+//}
+//
+//namespace detail{
+//void LoadDataQuery(TransportCatalogue& catalogue, std::istream& input = std::cin){
+//    ParseInputQueryPtr(catalogue, input);
+//}
+//} // namespace detail
 
 } // namespace input_reader
 } // namespace transport_catalogue

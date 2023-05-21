@@ -1,15 +1,21 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <string_view>
+#include <cassert>
 
 #include "request_handler.h"
-#include "test_input_reader.h"
-#include "test_transport_catalogue.h"
-#include "test_stat_reader.h"
-#include "test_json.h"
-#include "test_map_renderer.h"
+#include "graph.h"
+#include "router.h"
+#include "transport_router.h"
 
-#include "json_reader.h"
+//#include "test_input_reader.h"
+//#include "test_transport_catalogue.h"
+//#include "test_stat_reader.h"
+//#include "test_json.h"
+//#include "test_map_renderer.h"
+
+#include "json_builder.h"
 
 using namespace std;
 using namespace transport_catalogue;
@@ -29,20 +35,69 @@ using namespace transport_catalogue;
 //    my_output.close();
 //}
 
-void TestAll(){
-    transport_catalogue::test::RunTest();
-    input_reader::test::RunTest();
-    stat_reader::test::RunTest();
-    test_json::RunTest();
-//    test_map_renderer::RunTest();
+//void TestAll(){
+//    transport_catalogue::test::RunTest();
+//    input_reader::test::RunTest();
+//    stat_reader::test::RunTest();
+//    test_json::RunTest();
+////    test_map_renderer::RunTest();
 
 
-    transport_catalogue::catalogue::TransportCatalogue catalogue;
-//    TestWithFiles("tsC_case1_input.txt", "my_output1.txt");
+//    transport_catalogue::catalogue::TransportCatalogue catalogue;
+////    TestWithFiles("tsC_case1_input.txt", "my_output1.txt");
+//}
+
+using namespace graph;
+
+
+
+void TestMakeGraph(){
+    graph::DirectedWeightedGraph<double> g(7) ;
+    vector<size_t> vert{0, 1, 2, 3, 4, 5, 6};
+    vector<double> weights{1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+    vector<graph::Edge<double>> edges {
+             {0,1,weights[0]}
+            ,{1,2,weights[1]}
+            ,{2,3,weights[2]}
+            ,{3,1,weights[3]}
+            ,{1,4, weights[4]}
+            ,{5,6, weights[5]}
+    };
+    g.AddEdge(edges[0]);
+    g.AddEdge(edges[1]);
+    g.AddEdge(edges[2]);
+    g.AddEdge(edges[3]);
+    g.AddEdge(edges[4]);
+    g.AddEdge(edges[5]);
+
+    auto answer = graph::Router(g).BuildRoute(0,4);
+    auto answer1 = graph::Router(g).BuildRoute(0,0);
+    auto answer2 = graph::Router(g).BuildRoute(4,5);
+    assert(answer2 == nullopt);
+}
+
+
+
+
+
+void TestCreateCatalogueGraph(std::string input_name, std::string output_name){
+    request_handler::RequestHandler rhandler;
+    std::ifstream input  (input_name);
+    std::ofstream output(output_name);
+    if(input.is_open() ){
+        rhandler.LoadJson(input).ParseAndProcessQueries(output);
+    }
+    input.close();
 }
 
 int main()
 {
+//    TestMakeGraph();
+//    for(int i = 2; i <=2; ++i) {
+//        TestCreateCatalogueGraph("input" + std::to_string(i) + ".json", "output" + std::to_string(i) + ".json");
+//    }
+    TestCreateCatalogueGraph("in_test_22.json", "output.json");
+
 //    cout << "this is my git project"s << endl;
 //    std::istringstream input {
 //        "13\n"
@@ -77,18 +132,14 @@ int main()
 //    std::cout << output.str() << endl;
 
 //    TestAll();
+//        request_handler::RequestHandler rhandler;
+//        std::ifstream input  ("input.json");//("test.json"); //
+//        std::ofstream output("output.json");
+//        if(input.is_open() ){
+//            rhandler.LoadJson(input).ParseAndProcessQueries(output);
+//        }
+//        input.close();
 
-//    setlocale(LC_ALL,"ru");
-//    request_handler::RequestHandler rhandler;
-//    std::ifstream input  ("1.json");//("test.json"); //
-//    std::ofstream output("1_output.json");
-//    if(input.is_open() ){
-//        rhandler.LoadJson(input, output);
-//    }
-//    input.close();
-//    return 0;
 
-    request_handler::RequestHandler rhandler;
-    rhandler.LoadJson(cin, cout);
     return 0;
 }

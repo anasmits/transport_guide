@@ -95,11 +95,11 @@ namespace svg {
         out << " x=\""sv << position_.x << "\" y=\""sv << position_.y << "\""sv;
         out << " dx=\""sv << offset_.x << "\" dy=\""sv << offset_.y << "\""sv;
         out << " font-size=\""sv << font_size_ << "\""sv;
-        if(!font_family_.empty()){
-            out << " font-family=\""sv << font_family_ << "\""sv;
-        }
         if(!font_weight_.empty()){
             out << " font-weight=\""sv << font_weight_ << "\""sv;
+        }
+        if(!font_family_.empty()){
+            out << " font-family=\""sv << font_family_ << "\""sv;
         }
         out << ">";
         if(!data_.empty()){

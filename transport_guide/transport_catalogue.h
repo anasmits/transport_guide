@@ -9,23 +9,37 @@
 #include <set>
 #include <tuple>
 #include <iostream>
+#include <optional>
 
 #include "domain.h"
+#include "graph.h"
+//#include "transport_router.h"
+
 
 namespace transport_catalogue{
 namespace catalogue{
 
 using namespace domain;
 
+// singleton
 class TransportCatalogue
 {    
-public:
+private:
     TransportCatalogue();
+    static TransportCatalogue* catalogue_instance_ptr;
+
+public:
     ~TransportCatalogue();
 
     TransportCatalogue(const TransportCatalogue&) = delete;
-    TransportCatalogue operator=(const TransportCatalogue&) = delete;
+    TransportCatalogue& operator=(const TransportCatalogue&) = delete;
     TransportCatalogue(TransportCatalogue&&) = default;
+
+
+    static TransportCatalogue* GetInstance();
+
+    friend class TransportRouter;
+
 
     void AddStop(const Stop& stop);
     void AddStop(const Stop* stop);
@@ -46,15 +60,29 @@ public:
     std::string GetBusInfo(const std::string& bus_name) const;
     std::string GetStopInfo(const std::string& stop_name) const;
 
-    std::unordered_map<std::string, double> GetBusStat(const std::string_view& bus_name) const;
+//    std::unordered_map<std::string, double> GetBusStat(const std::string_view& bus_name) const;
+    std::tuple<double, int, double> GetBusPtrStat(const Bus* bus_ptr) const;
+
     const std::deque<Bus>* GetBusesPtr() const;
     const std::deque<Stop>* GetStopsPtr() const;
+    std::deque<Stop>* GetStopsPtr();
 
     void CalculateRouteAndCurvature();
-/*This functions must be checked then commented*/
-//    double CalculateGeoRouteLength(const Bus* bus) const;
-//    int CalculateRouteLength(const Bus* bus) const;
-//    double CalculateCurvature(double geo_distance, int m_distance) const;
+
+    const size_t BUS_WAIT_TIME_MAX = 1000;
+    const size_t BUS_WAIT_TIME_MIN = 1;
+    const double BUS_VELOCITY_MAX = 1000;
+    const double BUS_VELOCITY_MIN = 1;
+
+    void SetBusVelocity(double vel);
+    double GetBusVelocity();
+
+    void SetBusWaitTime(size_t wait_time);
+    size_t GetBusWaitTime();
+
+    void MakeGraph();
+
+    static size_t GetStopsCount();
 
 private:
     std::deque<Stop> stops_;
@@ -65,7 +93,10 @@ private:
     std::unordered_map<ConstPairStopPtr, int, hash_constpair_stopptr> stops_to_distance_m; // with distance in meters
     std::unordered_map<const Bus*, std::tuple<double, int, double>, std::hash<const void*>> busptr_to_geo_m_curv;
     std::unordered_map<Stop*, std::set<Bus*>> stopptr_to_busptr;
+    size_t bus_wait_time;
+    double bus_velocity_mps;
 
+    static size_t stops_count;
 /*This functions must be checked then uncommented*/
     double CalculateGeoRouteLength(const Bus* bus) const;
     int CalculateRouteLength(const Bus* bus) const;
@@ -73,8 +104,10 @@ private:
 };
 
 
+
+
 namespace detail{
 
 } // namespace detail
 } // namespace catalogue
-} // namespace transport_cataloge
+} // namespace transport_catalogue

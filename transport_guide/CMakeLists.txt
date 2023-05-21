@@ -17,14 +17,17 @@ add_executable(transport_guide main.cpp
                 svg.h svg.cpp
                 map_renderer.h map_renderer.cpp
                 request_handler.h request_handler.cpp
+                graph.h
+                ranges.h
+                router.h
 
 
-                test_transport_catalogue.h
-                test_input_reader.h
-                test_stat_reader.h
-                test_json.h
-                test_map_renderer.h
-            )
+#                test_transport_catalogue.h
+#                test_input_reader.h
+#                test_stat_reader.h
+#                test_json.h
+#                test_map_renderer.h
+        transport_router.cpp transport_router.h)
 
 install(TARGETS transport_guide
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

@@ -6,7 +6,24 @@
 #include <algorithm>
 #include <unordered_set>
 
+#include "transport_router.h"
+
 using namespace transport_catalogue::catalogue;
+
+TransportCatalogue* TransportCatalogue::catalogue_instance_ptr = nullptr;
+
+TransportCatalogue* TransportCatalogue::GetInstance(){
+    if (catalogue_instance_ptr == nullptr)
+    {
+        catalogue_instance_ptr = new TransportCatalogue();
+
+        return catalogue_instance_ptr;
+    }
+    else
+    {
+        return catalogue_instance_ptr;
+    }
+}
 
 TransportCatalogue::TransportCatalogue(){}
 
@@ -14,6 +31,7 @@ TransportCatalogue::~TransportCatalogue(){}
 
 void TransportCatalogue::AddStop(const Stop& stop){
     stops_.push_back(std::move(stop));
+    stops_.back().number = ++stops_count;
     stopname_to_stop[stops_.back().name] = &stops_.back();
 }
 
@@ -135,20 +153,12 @@ std::string TransportCatalogue::GetBusInfo(const std::string& bus_name) const{
     }
     std::unordered_set<Stop*> unique_stops = {bus->stops.begin(), bus->stops.end()};
 
-
-//    double geo = CalculateGeoRouteLength(bus);
-//    int m = CalculateRouteLength(bus);
-//    double curv =  CalculateCurvature(geo, m);
-//    busptr_to_geo_m_curv.insert(std::make_pair(&buses_.back(), std::make_tuple(geo, m, curv)));
-
     std::ostringstream out;
     out << "Bus " << bus_name << ": "
         << bus->stops.size() << " stops on route, "s
         << unique_stops.size() << " unique stops, "s
         << std::setprecision(6) << std::get<1>(busptr_to_geo_m_curv.at(bus)) << " route length, "s
         << std::setprecision(6) << std::get<2>(busptr_to_geo_m_curv.at(bus)) << " curvature"s;
-//        << std::setprecision(6) << m << " route length, "s
-//        << std::setprecision(6) << curv << " curvature"s;
     return out.str();
 }
 
@@ -171,16 +181,16 @@ std::string TransportCatalogue::GetStopInfo(const std::string &stop_name) const
     return out.str();
 }
 
-std::unordered_map<std::string, double> TransportCatalogue::GetBusStat(const std::string_view& bus_name) const{
-    std::unordered_map<std::string, double> result;
-    auto bus = busname_to_bus.at(bus_name);
-    result["curvature"s] = std::get<2>(busptr_to_geo_m_curv.at(bus));
-    result["route_length"s] = std::get<1>(busptr_to_geo_m_curv.at(bus));
-    result["stop_count"s] = bus->stops.size();
-    std::unordered_set<Stop*> unique_stops = {bus->stops.begin(), bus->stops.end()};
-    result["unique_stop_count"s] = unique_stops.size();
-    return result;
-}
+//std::unordered_map<std::string, double> TransportCatalogue::GetBusStat(const std::string_view& bus_name) const{
+//    std::unordered_map<std::string, double> result;
+//    auto bus = busname_to_bus.at(bus_name);
+//    result["curvature"s] = std::get<2>(busptr_to_geo_m_curv.at(bus));
+//    result["route_length"s] = std::get<1>(busptr_to_geo_m_curv.at(bus));
+//    result["stop_count"s] = bus->stops.size();
+//    std::unordered_set<Stop*> unique_stops = {bus->stops.begin(), bus->stops.end()};
+//    result["unique_stop_count"s] = unique_stops.size();
+//    return result;
+//}
 
 const std::deque<Bus>* TransportCatalogue::GetBusesPtr() const {
     return &buses_;
@@ -188,4 +198,42 @@ const std::deque<Bus>* TransportCatalogue::GetBusesPtr() const {
 
 const std::deque<Stop>* TransportCatalogue::GetStopsPtr() const{
     return &stops_;
+}
+
+void TransportCatalogue::SetBusVelocity(double vel){
+    constexpr double COEF_KMPH_TO_MPM = 1000. / 60.;
+    if((vel < BUS_VELOCITY_MAX) && (vel > BUS_VELOCITY_MIN)){
+        bus_velocity_mps = vel * COEF_KMPH_TO_MPM;
+    } else {
+        throw std::invalid_argument("Bus velocity must be more than 1 and less than 1000"s);
+    }
+}
+
+double TransportCatalogue::GetBusVelocity(){
+    return  bus_velocity_mps;
+}
+
+void TransportCatalogue::SetBusWaitTime(size_t wait_time){
+    if((wait_time < BUS_WAIT_TIME_MAX) && (wait_time > BUS_WAIT_TIME_MIN)){
+        bus_wait_time = wait_time;
+    } else {
+        throw std::invalid_argument("Bus wait time must be more than 1 and less than 1000"s);
+    }
+}
+
+size_t TransportCatalogue::GetBusWaitTime(){
+    return bus_wait_time;
+}
+
+std::deque<Stop>* TransportCatalogue::GetStopsPtr(){
+    return &stops_;
+}
+
+size_t TransportCatalogue::stops_count = 0u;
+size_t TransportCatalogue::GetStopsCount(){
+    return stops_count++;
+}
+
+std::tuple<double, int, double> TransportCatalogue::GetBusPtrStat(const Bus* bus_ptr) const{
+    return busptr_to_geo_m_curv.at(bus_ptr);
 }
